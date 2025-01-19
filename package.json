@@ -1,0 +1,22 @@
+{
+  "name": "automationtest",
+  "version": "1.0.0",
+  "description": "For Testing",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KimieTran/AutomationTest.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KimieTran/AutomationTest/issues"
+  },
+  "homepage": "https://github.com/KimieTran/AutomationTest#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "@types/node": "^22.10.7"
+  }
+}
