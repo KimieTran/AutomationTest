@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/HomePage.page';
 
-test.only('verify elements shown', async ({page})=>{
+test('verify elements shown', async ({page})=>{
 test.setTimeout(90000);
 const homePage = new HomePage(page);
 await homePage.goToHomePage();
