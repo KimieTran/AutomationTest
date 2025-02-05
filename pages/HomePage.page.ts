@@ -28,7 +28,7 @@ export class HomePage{
     }
 
     async goToHomePage(){
-        await this.page.goto('https://alpha-app.dem.exchange/');
+        await this.page.goto('https://beta-app.dem.exchange/');
     }
 
 
