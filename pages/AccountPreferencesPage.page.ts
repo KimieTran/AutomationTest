@@ -9,6 +9,6 @@ export class AccountPreferencesPage{
     }
 
     async goToAccountPreferencesPage(){
-        await this.page.goto('https://alpha-app.dem.exchange/account/profile');
+        await this.page.goto('https://beta-app.dem.exchange/account/profile');
     }
 }
