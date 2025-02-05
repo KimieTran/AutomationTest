@@ -11,6 +11,8 @@ export class HomePage{
     readonly fundingDataChart;
     readonly orderBook;
     readonly orderPrice;
+    readonly carbonDevnet: Locator
+    readonly mantle: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -24,6 +26,8 @@ export class HomePage{
         this.fundingDataChart=page.locator('xpath=//*[name()="svg" and @class="recharts-surface"]');
         this.orderBook=page.locator('xpath=//p[text()="Order Book"]');
         this.orderPrice=page.locator('xpath=//p[text()="Order Price"]');
+        this.carbonDevnet=this.page.getByRole('paragraph').filter({ hasText: 'Carbon Devnet' })
+        this.mantle=this.page.getByText('Mantle')
 
     }
 
