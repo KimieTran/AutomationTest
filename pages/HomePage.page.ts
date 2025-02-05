@@ -26,7 +26,7 @@ export class HomePage{
         this.fundingDataChart=page.locator('xpath=//*[name()="svg" and @class="recharts-surface"]');
         this.orderBook=page.locator('xpath=//p[text()="Order Book"]');
         this.orderPrice=page.locator('xpath=//p[text()="Order Price"]');
-        this.carbonDevnet=this.page.getByRole('paragraph').filter({ hasText: 'Carbon Devnet' })
+        this.carbonDevnet=this.page.getByRole('paragraph').filter({ hasText: 'Carbon Testnet' })
         this.mantle=this.page.getByText('Mantle')
 
     }

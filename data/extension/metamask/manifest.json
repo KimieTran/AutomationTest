@@ -85,7 +85,8 @@
     "storage",
     "unlimitedStorage",
     "webRequest",
-    "offscreen"
+    "offscreen",
+    "tabs"
   ],
   "sandbox": {
     "pages": [

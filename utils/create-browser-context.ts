@@ -2,9 +2,9 @@ import { chromium } from "@playwright/test";
 import path from "path";
 
 export const createBrowserContext = async () => {
-    const pathToExtension01 = path.join(__dirname.replace("\\utils", ""), "data", "extension", "metamask")
-    const pathToExtension02 = path.join(__dirname.replace("\\utils", ""), "data", "extension", "keplr")
-    const pathToExtension03 = path.join(__dirname.replace("\\utils", ""), "data", "extension", "leap")
+    const pathToExtension01 = path.join(__dirname, "..", "data", "extension", "metamask")
+    const pathToExtension02 = path.join(__dirname, "..", "data", "extension", "keplr")
+    const pathToExtension03 = path.join(__dirname, "..", "data", "extension", "leap")
 
     return chromium.launchPersistentContext("", {
       channel: "chromium",
