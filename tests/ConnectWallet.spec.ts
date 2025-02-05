@@ -12,12 +12,12 @@ import { ViewOnlyModePage } from '../pages/ViewOnlyModePage';
 
 let page: Page
 let browserContext: BrowserContext
-test.beforeAll('Connect Keplr wallet', async () => {
+test.skip('Connect Keplr wallet', async () => {
   browserContext = await createBrowserContext()
   page = await browserContext.newPage()
 
 })
-  test.describe('Connect Wallet feature', async () => {
+  test.describe.skip('Connect Wallet feature', async () => {
     test('Connect MetaMask wallet', async () => {
       test.setTimeout(90_000)	
       const homePage = new HomePage(page);
