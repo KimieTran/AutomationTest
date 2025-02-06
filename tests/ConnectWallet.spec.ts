@@ -12,20 +12,23 @@ import { ViewOnlyModePage } from '../pages/ViewOnlyModePage';
 
 let page: Page
 let browserContext: BrowserContext
-test.skip('Add all necessary extensions: MetaMask, Keplr, Leap', async () => {
+const srpArr = ['deal', 'payment', 'cigar', 'breeze', 'vast', 'curve', 'west', 'six', 'doll', 'convince', 'page', 'wing']
+const passworld = 'Abc12345789'
+test.beforeAll('Add all necessary extensions: MetaMask, Keplr, Leap', async () => {
   browserContext = await createBrowserContext()
   page = await browserContext.newPage()
 
 })
-  test.describe.skip('Connect Wallet feature', async () => {
+  test.describe('Connect Wallet feature', async () => {
     test('Connect MetaMask wallet', async () => {
-      test.setTimeout(120_000)	
+      test.setTimeout(150_000)	
       const homePage = new HomePage(page);
       await homePage.goToHomePage();
       page.waitForLoadState()
       expect(homePage.spotHistory).toBeTruthy();
       await homePage.carbonTestnet.click()
-      await homePage.mantle.dblclick()
+      await homePage.mantle.click()
+      await page.waitForLoadState()
 
       const tradePage = new TradeTradePage(page);
       await tradePage.rightSideConnectWallet.click();
@@ -33,17 +36,63 @@ test.skip('Add all necessary extensions: MetaMask, Keplr, Leap', async () => {
       const connectWalletPage = new ConnectWalletPage(page)
       await connectWalletPage.selectWallet.isVisible()
       
-      await connectWalletPage.metaMaskBtn.click()
-      const page1 = await browserContext.newPage()
-      await page1.goto('chrome-extension://gcehgojdnhoclncgbpkgpjmhapgoocgp/home.html');
-      await page1.waitForLoadState()
+      const [newPage] = await Promise.all([
+        browserContext.waitForEvent('page'),
+        await connectWalletPage.metaMaskBtn.click()
+      ]);
+      await newPage.waitForLoadState()
 
-      const metaMaskPage = new MetaMaskPage(page1)
+      const [metaPage] = await Promise.all([
+        browserContext.waitForEvent('page'),
+      ]);
+      await metaPage.waitForLoadState()
+
+      const metaMaskPage = new MetaMaskPage(metaPage)
       await metaMaskPage.createNewWalletBtn.isVisible()
       await metaMaskPage.importExistingWalletBtn.isVisible()
+      await metaMaskPage.agreeMetaMaskCheckbox.click()
+      await metaMaskPage.importExistingWalletBtn.click()
+      await metaMaskPage.noThankBtn.click()
+
+      for (var i = 0; i < srpArr.length; i++){
+        await metaMaskPage.secretRecoveryPhrases(i).fill(srpArr[i]) 
+      }
+      
+      await metaMaskPage.confirmSRPBtn.click()
+      await metaMaskPage.newPasswordTextBox.fill(passworld)
+      await metaMaskPage.confirmPasswordTextBox.fill(passworld)
+      await metaMaskPage.metaMaskTermsCheckbox.click()
+      await metaMaskPage.importMyWalletBtn.click()
+      await metaMaskPage.doneBtn.click()
+      await metaMaskPage.nextBtn.click()
+      await metaMaskPage.done2Btn.click()
+
+      const [newPage1] = await Promise.all([
+        browserContext.waitForEvent('page'),
+        await connectWalletPage.metaMaskBtn.click()
+      ]);
+      await newPage1.waitForLoadState()
+
+      const metaMaskPage1 = new MetaMaskPage(newPage1)
+      await metaMaskPage1.connectBtn.click()
+      await newPage1.waitForLoadState()
+
+      const [newPage2] = await Promise.all([
+        browserContext.waitForEvent('page'),
+      ]);
+      await newPage2.waitForLoadState()
+
+      const metaMaskPage2 = new MetaMaskPage(newPage2)
+      await metaMaskPage2.confirmFooterBtn.click()
+
+      await page.waitForLoadState()
+
     })
 
-    test('Connect Keplr wallet', async () => {	
+
+
+
+    test.skip('Connect Keplr wallet', async () => {	
       const connectWalletPage = new ConnectWalletPage(page)
       await connectWalletPage.selectWallet.isVisible()
       
@@ -56,7 +105,7 @@ test.skip('Add all necessary extensions: MetaMask, Keplr, Leap', async () => {
       await connectWalletPage.selectWallet.isVisible()
     })
 
-    test('Connect Leap wallet', async () => {	
+    test.skip('Connect Leap wallet', async () => {	
       const connectWalletPage = new ConnectWalletPage(page)
       await connectWalletPage.selectWallet.isVisible()
       
@@ -69,7 +118,7 @@ test.skip('Add all necessary extensions: MetaMask, Keplr, Leap', async () => {
       await connectWalletPage.selectWallet.isVisible()
     })
 
-    test('Connect Encrypted Key', async () => {	
+    test.skip('Connect Encrypted Key', async () => {	
       const connectWalletPage = new ConnectWalletPage(page)
       await connectWalletPage.selectWallet.isVisible()
       
@@ -83,8 +132,7 @@ test.skip('Add all necessary extensions: MetaMask, Keplr, Leap', async () => {
       await connectWalletPage.selectWallet.isVisible()
     })
 
-    
-    test('View Only Mode', async () => {	
+    test.skip('View Only Mode', async () => {	
       const connectWalletPage = new ConnectWalletPage(page)
       await connectWalletPage.selectWallet.isVisible()
       
