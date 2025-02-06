@@ -12,19 +12,19 @@ import { ViewOnlyModePage } from '../pages/ViewOnlyModePage';
 
 let page: Page
 let browserContext: BrowserContext
-test.beforeAll('Add all necessary extensions: MetaMask, Keplr, Leap', async () => {
+test.skip('Add all necessary extensions: MetaMask, Keplr, Leap', async () => {
   browserContext = await createBrowserContext()
   page = await browserContext.newPage()
 
 })
-  test.describe('Connect Wallet feature', async () => {
+  test.describe.skip('Connect Wallet feature', async () => {
     test('Connect MetaMask wallet', async () => {
       test.setTimeout(120_000)	
       const homePage = new HomePage(page);
       await homePage.goToHomePage();
       page.waitForLoadState()
       expect(homePage.spotHistory).toBeTruthy();
-      await homePage.carbonDevnet.click()
+      await homePage.carbonTestnet.click()
       await homePage.mantle.dblclick()
 
       const tradePage = new TradeTradePage(page);

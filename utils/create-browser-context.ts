@@ -11,6 +11,8 @@ export const createBrowserContext = async () => {
       args: [
         `--disable-extensions-except=${pathToExtension01},${pathToExtension02},${pathToExtension03}`,
         `--load-extension=${pathToExtension01},${pathToExtension02},${pathToExtension03}`,
+        `--disable-web-security`,
+        '--no-sandbox' 
       ],
     });
 }
