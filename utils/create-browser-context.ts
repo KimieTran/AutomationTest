@@ -13,5 +13,6 @@ export const createBrowserContext = async () => {
         `--load-extension=${pathToExtension01}}`,
         '--no-sandbox' 
       ],
+      permissions: ['clipboard-read', 'clipboard-write']
     });
 }

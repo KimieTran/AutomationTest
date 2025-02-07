@@ -18,20 +18,25 @@ test.beforeAll('Add all necessary extensions: MetaMask, Keplr, Leap', async () =
   browserContext = await createBrowserContext()
   page = await browserContext.newPage()
 
+  const [newPage] = await Promise.all([
+    browserContext.waitForEvent('page'),
+  ]);
+  await newPage.waitForLoadState()
+  newPage.close()
 })
   test.describe('Connect Wallet feature', async () => {
     test('Connect MetaMask wallet', async () => {
-      test.setTimeout(150_000)	
-      const homePage = new HomePage(page);
-      await homePage.goToHomePage();
+      test.setTimeout(180_000)	
+      const homePage = new HomePage(page)
+      await homePage.goToHomePage()
       page.waitForLoadState()
       expect(homePage.spotHistory).toBeTruthy();
-      await homePage.carbonTestnet.click()
+      await homePage.carbonTestnet.click({ timeout: 5000 });
       await homePage.mantle.click()
       await page.waitForLoadState()
 
       const tradePage = new TradeTradePage(page);
-      await tradePage.rightSideConnectWallet.click();
+      await tradePage.headerConnectWallet.click();
       
       const connectWalletPage = new ConnectWalletPage(page)
       await connectWalletPage.selectWallet.isVisible()
@@ -67,6 +72,11 @@ test.beforeAll('Add all necessary extensions: MetaMask, Keplr, Leap', async () =
       await metaMaskPage.nextBtn.click()
       await metaMaskPage.done2Btn.click()
 
+      await page.bringToFront()
+      await page.reload()
+      await page.waitForLoadState()
+      await tradePage.headerConnectWallet.click()
+      
       const [newPage1] = await Promise.all([
         browserContext.waitForEvent('page'),
         await connectWalletPage.metaMaskBtn.click()
@@ -85,7 +95,17 @@ test.beforeAll('Add all necessary extensions: MetaMask, Keplr, Leap', async () =
       const metaMaskPage2 = new MetaMaskPage(newPage2)
       await metaMaskPage2.confirmFooterBtn.click()
 
-      await page.waitForLoadState()
+      await page.waitForLoadState('load')
+      await page.waitForTimeout(20_000)
+
+      await homePage.dropAddress1.click()
+      await homePage.dropAddress2.click()
+
+      await homePage.copyEVMAddressBtn.click()
+      const copiedEVMAddressText = await page.evaluate(() => navigator.clipboard.readText())
+      console.log(copiedEVMAddressText)
+      const evmPattern = /^0x[a-fA-F0-9]{40}$/
+      expect(copiedEVMAddressText.trim()).toMatch(evmPattern)
 
     })
 

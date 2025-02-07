@@ -13,6 +13,12 @@ export class HomePage{
     readonly orderPrice;
     readonly carbonTestnet: Locator
     readonly mantle: Locator
+    readonly dropAddress1: Locator
+    readonly dropAddress2: Locator
+    readonly evmAddress: Locator
+    readonly copyEVMAddressBtn: Locator
+    readonly carbonAddress: Locator
+    readonly copyCarbonAddressBtn: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -28,6 +34,12 @@ export class HomePage{
         this.orderPrice=page.locator('xpath=//p[text()="Order Price"]');
         this.carbonTestnet=this.page.getByRole('paragraph').filter({ hasText: 'Carbon Testnet' })
         this.mantle=this.page.getByText('Mantle')
+        this.dropAddress1 = this.page.getByRole('img', { name: 'MetaMask' })
+        this.dropAddress2 = this.page.locator('div[title="Copy to Clipboard"]').locator('xpath=following-sibling::div')
+        this.evmAddress=this.page.locator('//p[contains(text(), "EVM Address")]/following-sibling::div/div/div')
+        this.carbonAddress=this.page.getByText('Carbon Address').locator('xpath=following-sibling::div')
+        this.copyEVMAddressBtn=this.page.locator('div[title="Copy to Clipboard"]').nth(1)
+        this.copyCarbonAddressBtn=this.page.locator('div[title="Copy to Clipboard"]').nth(2)
 
     }
 
