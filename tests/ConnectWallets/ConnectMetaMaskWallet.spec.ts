@@ -1,21 +1,22 @@
 import { test, expect, Page, BrowserContext } from '@playwright/test'
-import { createBrowserContext } from "../utils/create-browser-context";
-import { HomePage } from '../pages/HomePage.page';
-import { TradeTradePage } from '../pages/TradeTradePage.page';
-import { ConnectWalletPage } from '../pages/ConnectWalletPage';
-import { MetaMaskPage } from '../pages/MetaMaskPage';
-import { KeplrPage } from '../pages/KeplrPage';
-import { LeapPage } from '../pages/LeapPage';
-import { EncryptedKeyPage } from '../pages/EncryptedKeyPage';
-import { ViewOnlyModePage } from '../pages/ViewOnlyModePage';
+import { createBrowserContext } from "../../utils/create-browser-context";
+import { HomePage } from '../../pages/HomePage.page';
+import { TradeTradePage } from '../../pages/TradeTradePage.page';
+import { ConnectWalletPage } from '../../pages/ConnectWalletPage';
+import { MetaMaskPage } from '../../pages/MetaMaskPage';
+import { KeplrPage } from '../../pages/KeplrPage';
+import { LeapPage } from '../../pages/LeapPage';
+import { EncryptedKeyPage } from '../../pages/EncryptedKeyPage';
+import { ViewOnlyModePage } from '../../pages/ViewOnlyModePage';
 
 
 let page: Page
 let browserContext: BrowserContext
 const srpArr = ['deal', 'payment', 'cigar', 'breeze', 'vast', 'curve', 'west', 'six', 'doll', 'convince', 'page', 'wing']
 const passworld = 'Abc12345789'
+const extensionName = "metamask"
 test.beforeAll('Add all necessary extensions: MetaMask, Keplr, Leap', async () => {
-  browserContext = await createBrowserContext()
+  browserContext = await createBrowserContext(extensionName)
   page = await browserContext.newPage()
 
   const [newPage] = await Promise.all([

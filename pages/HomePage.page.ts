@@ -19,6 +19,7 @@ export class HomePage{
     readonly copyEVMAddressBtn: Locator
     readonly carbonAddress: Locator
     readonly copyCarbonAddressBtn: Locator
+    readonly dropKeplrAddress1: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -40,6 +41,7 @@ export class HomePage{
         this.carbonAddress=this.page.getByText('Carbon Address').locator('xpath=following-sibling::div')
         this.copyEVMAddressBtn=this.page.locator('div[title="Copy to Clipboard"]').nth(1)
         this.copyCarbonAddressBtn=this.page.locator('div[title="Copy to Clipboard"]').nth(2)
+        this.dropKeplrAddress1 = this.page.locator('svg:nth-child(3)').first()
 
     }
 
