@@ -44,7 +44,7 @@ test('Connect wallet by Encrypted Key', async ({}) => {
   await page.waitForLoadState('load')
   await page.waitForTimeout(15_000)
 
-  await homePage.addressDropBtn.click()
+  await homePage.addressDropBtn.click({ delay: 5000 })
   await homePage.dropAddress2.click()
 
   await homePage.copyEVMAddressBtn.click()

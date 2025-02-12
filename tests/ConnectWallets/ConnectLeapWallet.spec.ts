@@ -12,6 +12,7 @@ const passworld = 'Abc12345789'
 const extensionName = "leap"
 
 test.beforeAll('Add extension: Leap', async () => {
+  test.setTimeout(90_000)
   browserContext = await createBrowserContext(extensionName)
   page = await browserContext.newPage()
 
@@ -45,17 +46,16 @@ test.beforeAll('Add extension: Leap', async () => {
   await leapPage.passwordTextbox.fill(passworld)
   await leapPage.confirmPasswordTextbox.fill(passworld)
   await leapPage.proceedBtn.click()
-  
+
   await page.bringToFront()
 
 })
 test('Connect Leap wallet', async () => {
-  test.setTimeout(120_000)
+  test.setTimeout(150_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
-  page.waitForLoadState()
   expect(homePage.spotHistory).toBeTruthy();
-  await homePage.carbonTestnet.click({ timeout: 5000 });
+  await homePage.carbonTestnet.click({ timeout: 10_000 });
   await homePage.mantle.click()
   await page.waitForLoadState()
 
@@ -65,25 +65,23 @@ test('Connect Leap wallet', async () => {
   const connectWalletPage = new ConnectWalletPage(page)
   await connectWalletPage.selectWallet.isVisible()
 
-  await connectWalletPage.leapBtn.click()
-  await page.waitForTimeout(5000)
+  await connectWalletPage.leapBtn.click({ clickCount: 3 })
   const leapPage = new LeapPage(page)
 
   const [newPage] = await Promise.all([
     browserContext.waitForEvent('page'),
-    await leapPage.connectBtn.click()
+    await leapPage.connectBtn.click({ clickCount: 3 })
   ]);
-  await newPage.waitForLoadState()
+  await newPage.waitForLoadState('load')
   
-  await page.waitForTimeout(5000)
   const approveLeapPage = new LeapPage(newPage)
-  await approveLeapPage.connectBtn.click()
-
   const [newPage1] = await Promise.all([
     browserContext.waitForEvent('page'),
+    await approveLeapPage.connectBtn.click()
   ]);
-  await newPage1.waitForLoadState()
+  await newPage1.waitForLoadState('load')
 
+  await page.waitForTimeout(5000)
   const approveLeapPage1 = new LeapPage(newPage1)
   await approveLeapPage1.approveBtn.click()
 

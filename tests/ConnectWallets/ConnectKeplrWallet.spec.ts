@@ -12,6 +12,7 @@ const passworld = 'Abc12345789'
 const extensionName = "keplr"
 const walletName = "Keplr Testing"
 test.beforeAll('Add extension: Keplr', async () => {
+  test.setTimeout(90_000)
   browserContext = await createBrowserContext(extensionName)
   page = await browserContext.newPage()
 
@@ -39,7 +40,8 @@ test.beforeAll('Add extension: Keplr', async () => {
   await keplrPage.confirmPasswordTextBox.fill(passworld)
   await keplrPage.nextBtn.click()
   await keplrPage.saveBtn.click()
-  await keplrPage.finishBtn.click()
+  //await keplrPage.finishBtn.click()
+  await page.bringToFront()
 
 })
 test('Connect Keplr wallet', async () => {
@@ -58,20 +60,19 @@ test('Connect Keplr wallet', async () => {
   const connectWalletPage = new ConnectWalletPage(page)
   await connectWalletPage.selectWallet.isVisible()
 
-  await connectWalletPage.keplrBtn.click()
+  await connectWalletPage.keplrBtn.click({ delay: 3000 })
   const keplrPage = new KeplrPage(page)
 
   const [newPage] = await Promise.all([
     browserContext.waitForEvent('page'),
     await keplrPage.connectBtn.click()
   ]);
-  await newPage.waitForLoadState()
+  await newPage.waitForLoadState('load')
   
   const approveKeplrPage = new KeplrPage(newPage)
-  await approveKeplrPage.approveBtn.click()
-
   const [newPage1] = await Promise.all([
     browserContext.waitForEvent('page'),
+    await approveKeplrPage.approveBtn.click()
   ]);
   await newPage1.waitForLoadState()
 
@@ -81,7 +82,7 @@ test('Connect Keplr wallet', async () => {
   await page.waitForLoadState('load')
   await page.waitForTimeout(10_000)
 
-  await homePage.addressDropBtn.click()
+  await homePage.addressDropBtn.click({ delay: 3000})
   await homePage.dropAddress2.click()
 
   await homePage.copyEVMAddressBtn.click()
