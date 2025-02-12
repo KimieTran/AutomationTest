@@ -13,13 +13,14 @@ export class HomePage{
     readonly orderPrice;
     readonly carbonTestnet: Locator
     readonly mantle: Locator
-    readonly dropAddress1: Locator
+    readonly addressMetaMaskDropBtn: Locator
     readonly dropAddress2: Locator
     readonly evmAddress: Locator
     readonly copyEVMAddressBtn: Locator
     readonly carbonAddress: Locator
     readonly copyCarbonAddressBtn: Locator
-    readonly dropKeplrAddress1: Locator
+    readonly addressDropBtn: Locator
+    readonly firstCopyClipBoardBtn: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -35,13 +36,14 @@ export class HomePage{
         this.orderPrice=page.locator('xpath=//p[text()="Order Price"]');
         this.carbonTestnet=this.page.getByRole('paragraph').filter({ hasText: 'Carbon Testnet' })
         this.mantle=this.page.getByText('Mantle')
-        this.dropAddress1 = this.page.getByRole('img', { name: 'MetaMask' })
+        this.addressMetaMaskDropBtn = this.page.getByRole('img', { name: 'MetaMask' })
         this.dropAddress2 = this.page.locator('div[title="Copy to Clipboard"]').locator('xpath=following-sibling::div')
         this.evmAddress=this.page.locator('//p[contains(text(), "EVM Address")]/following-sibling::div/div/div')
         this.carbonAddress=this.page.getByText('Carbon Address').locator('xpath=following-sibling::div')
         this.copyEVMAddressBtn=this.page.locator('div[title="Copy to Clipboard"]').nth(1)
         this.copyCarbonAddressBtn=this.page.locator('div[title="Copy to Clipboard"]').nth(2)
-        this.dropKeplrAddress1 = this.page.locator('svg:nth-child(3)').first()
+        this.addressDropBtn = this.page.locator('svg:nth-child(3)').first()
+        this.firstCopyClipBoardBtn=this.page.locator('div[title="Copy to Clipboard"]').first()
 
     }
 

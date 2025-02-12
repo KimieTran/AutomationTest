@@ -81,7 +81,7 @@ test('Connect Keplr wallet', async () => {
   await page.waitForLoadState('load')
   await page.waitForTimeout(10_000)
 
-  await homePage.dropKeplrAddress1.click()
+  await homePage.addressDropBtn.click()
   await homePage.dropAddress2.click()
 
   await homePage.copyEVMAddressBtn.click()
