@@ -32,12 +32,12 @@ test('Connect wallet by View Only Mode', async () => {
   const connectWalletPage = new ConnectWalletPage(page)
   await connectWalletPage.selectWallet.isVisible()
 
-  await connectWalletPage.viewOnlyMode.click( { clickCount: 2 })
+  await connectWalletPage.viewOnlyMode.click( { delay: 1000 })
   const viewOnlyModePage = new ViewOnlyModePage(page)
 
   await viewOnlyModePage.walletAddressTextbox.click()
   await viewOnlyModePage.walletAddressTextbox.fill(swth1Address)
-  await viewOnlyModePage.viewBtn.click({ clickCount: 2 })
+  await viewOnlyModePage.viewBtn.click({ delay: 1000 })
   await viewOnlyModePage.viewBtn.waitFor({state: 'detached'})
 
   await page.waitForTimeout(15_000)

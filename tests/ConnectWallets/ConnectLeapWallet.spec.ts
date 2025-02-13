@@ -78,12 +78,12 @@ test('Connect Leap wallet', async () => {
   const approveLeapPage = new LeapPage(newPage)
   const [newPage1] = await Promise.all([
     browserContext.waitForEvent('page'),
-    await approveLeapPage.connectBtn.click()
+    await approveLeapPage.connectBtn.click({delay: 1500})
   ]);
   await newPage1.waitForLoadState()
 
   const approveLeapPage1 = new LeapPage(newPage1)
-  await approveLeapPage1.approveBtn.click()
+  await approveLeapPage1.approveBtn.click({delay: 1500})
   await page.waitForTimeout(15_000)
 
   await homePage.addressDropBtn.waitFor({state: 'visible'})

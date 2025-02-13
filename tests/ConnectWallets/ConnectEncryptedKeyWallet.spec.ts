@@ -33,12 +33,12 @@ test('Connect wallet by Encrypted Key', async () => {
   const connectWalletPage = new ConnectWalletPage(page)
   await connectWalletPage.selectWallet.isVisible()
 
-  await connectWalletPage.encryptedKeyBtn.click( { clickCount: 2 })
+  await connectWalletPage.encryptedKeyBtn.click( { delay: 1500 })
   const encryptedKeyPage = new EncryptedKeyPage(page)
 
   await encryptedKeyPage.encryptedKeyTextbox.fill(encryptedKey)
   await encryptedKeyPage.passwordTextbox.fill(passworld)
-  await encryptedKeyPage.connectBtn.click({delay: 1000})
+  await encryptedKeyPage.connectBtn.click({delay: 1500})
   await encryptedKeyPage.connectBtn.waitFor({state: 'detached'})
 
   await page.waitForTimeout(15_000)

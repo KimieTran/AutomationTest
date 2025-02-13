@@ -63,12 +63,12 @@ test('Connect MetaMask wallet', async () => {
 
   const [newPage1] = await Promise.all([
     browserContext.waitForEvent('page'),
-    await connectWalletPage.metaMaskBtn.click({delay: 500})
+    await connectWalletPage.metaMaskBtn.click({delay: 1500})
   ]);
   await newPage1.waitForLoadState()
 
   const metaMaskPage1 = new MetaMaskPage(newPage1)
-  await metaMaskPage1.connectBtn.click()
+  await metaMaskPage1.connectBtn.click({delay: 1500})
 
   const [newPage2] = await Promise.all([
     browserContext.waitForEvent('page'),
@@ -76,7 +76,7 @@ test('Connect MetaMask wallet', async () => {
   await newPage2.waitForLoadState()
 
   const metaMaskPage2 = new MetaMaskPage(newPage2)
-  await metaMaskPage2.confirmFooterBtn.click()
+  await metaMaskPage2.confirmFooterBtn.click({delay: 1500})
 
   await page.waitForTimeout(15_000)
 

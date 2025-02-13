@@ -25,7 +25,7 @@ test.skip('Add extension: Keplr', async () => {
   const keplrPage = new KeplrPage(newPage)
   await keplrPage.importExistingWalletBtn.click()
   await keplrPage.useRecoveryPhrase.click()
-  await page.waitForTimeout(3_000)
+  await page.waitForTimeout(3000)
 
   for (let i = 1; i <= srpArr.length; i++) {
     if(i==3 || i==7 || i==11){
@@ -63,30 +63,30 @@ test.skip('Connect Keplr wallet', async () => {
 
   const [newPage1] = await Promise.all([
     browserContext.waitForEvent('page'),
-    await connectWalletPage.keplrBtn.click({ clickCount: 2 })
+    await connectWalletPage.keplrBtn.click({ delay: 1000 })
   ]);
   await newPage1.waitForLoadState()
 
   const approveKeplrPage1 = new KeplrPage(newPage1)
   const [newPage2] = await Promise.all([
     browserContext.waitForEvent('page'),
-    await approveKeplrPage1.approveBtn.click()
+    await approveKeplrPage1.approveBtn.click({delay: 1000})
   ]);
   await newPage2.waitForLoadState()
 
   const approveKeplrPage2 = new KeplrPage(newPage2)
   const [newPage3] = await Promise.all([
     browserContext.waitForEvent('page'),
-    await approveKeplrPage2.approveBtn.click()
+    await approveKeplrPage2.approveBtn.click({delay: 1000})
   ]);
   await newPage3.waitForLoadState()
 
   await page.waitForTimeout(15_000)
 
   await homePage.addressDropBtn.waitFor({state: 'visible'})
-  await homePage.addressDropBtn.click( {force: true})
+  await homePage.addressDropBtn.click( {delay: 500})
   await homePage.dropAddress2.waitFor({state: 'visible'})
-  await homePage.dropAddress2.click()
+  await homePage.dropAddress2.click({delay: 500})
 
   await homePage.copyEVMAddressBtn.click()
   const copiedEVMAddressText = await page.evaluate(() => navigator.clipboard.readText())
