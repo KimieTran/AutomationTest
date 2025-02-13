@@ -15,7 +15,8 @@ export class ConnectWalletPage{
         this.keplrBtn = this.page.getByRole('button', { name: 'Keplr' })
         this.leapBtn = this.page.getByRole('button', { name: 'Leap' })
         this.encryptedKeyBtn = this.page.getByRole('button', { name: 'Encrypted Key' })
-        this.viewOnlyMode = this.page.getByText('View-Only Mode').nth(1)
+        //this.viewOnlyMode = this.page.getByText('View-Only Mode').nth(1)
+        this.viewOnlyMode = this.page.getByRole('list').filter({ hasText: 'View-Only Mode' }).locator('rect')
 
     }
 

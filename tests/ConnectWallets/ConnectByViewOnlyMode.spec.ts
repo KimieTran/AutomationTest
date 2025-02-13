@@ -21,29 +21,29 @@ test('Connect wallet by View Only Mode', async () => {
   test.setTimeout(90_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
-  page.waitForLoadState()
   expect(homePage.spotHistory).toBeTruthy();
-  await homePage.carbonTestnet.click({ timeout: 10_000 });
+  await homePage.carbonTestnet.click();
   await homePage.mantle.click()
   await page.waitForLoadState()
 
-  await page.waitForTimeout(10_000)
   const tradePage = new TradeTradePage(page);
   await tradePage.headerConnectWallet.click();
 
   const connectWalletPage = new ConnectWalletPage(page)
   await connectWalletPage.selectWallet.isVisible()
 
-  await connectWalletPage.viewOnlyMode.click()
+  await connectWalletPage.viewOnlyMode.click( { clickCount: 2 })
   const viewOnlyModePage = new ViewOnlyModePage(page)
 
+  await viewOnlyModePage.walletAddressTextbox.click()
   await viewOnlyModePage.walletAddressTextbox.fill(swth1Address)
-  await viewOnlyModePage.viewBtn.click()
+  await viewOnlyModePage.viewBtn.click({ clickCount: 2 })
+  await viewOnlyModePage.viewBtn.waitFor({state: 'detached'})
 
-  await page.waitForLoadState('load')
   await page.waitForTimeout(15_000)
-
-  await homePage.addressDropBtn.click()
+  await homePage.addressDropBtn.waitFor({state: 'visible'})
+  await homePage.addressDropBtn.click({ force: true })
+  await homePage.firstCopyClipBoardBtn.waitFor({state: 'visible'})
   await homePage.firstCopyClipBoardBtn.click()
 
   const copiedSWTH1ddressText = await page.evaluate(() => navigator.clipboard.readText())

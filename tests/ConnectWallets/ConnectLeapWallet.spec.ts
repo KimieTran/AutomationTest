@@ -51,11 +51,11 @@ test.beforeAll('Add extension: Leap', async () => {
 
 })
 test('Connect Leap wallet', async () => {
-  test.setTimeout(150_000)
+  test.setTimeout(120_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
   expect(homePage.spotHistory).toBeTruthy();
-  await homePage.carbonTestnet.click({ timeout: 10_000 });
+  await homePage.carbonTestnet.click();
   await homePage.mantle.click()
   await page.waitForLoadState()
 
@@ -65,31 +65,31 @@ test('Connect Leap wallet', async () => {
   const connectWalletPage = new ConnectWalletPage(page)
   await connectWalletPage.selectWallet.isVisible()
 
-  await connectWalletPage.leapBtn.click({ clickCount: 3 })
+  await connectWalletPage.leapBtn.waitFor({state: 'visible'})
+  await connectWalletPage.leapBtn.dblclick({delay: 1000})
   const leapPage = new LeapPage(page)
+  await leapPage.connectBtn.click({delay: 2000})
 
   const [newPage] = await Promise.all([
-    browserContext.waitForEvent('page'),
-    await leapPage.connectBtn.click({ clickCount: 3 })
+    browserContext.waitForEvent('page')
   ]);
-  await newPage.waitForLoadState('load')
+  await newPage.waitForLoadState()
   
   const approveLeapPage = new LeapPage(newPage)
   const [newPage1] = await Promise.all([
     browserContext.waitForEvent('page'),
     await approveLeapPage.connectBtn.click()
   ]);
-  await newPage1.waitForLoadState('load')
+  await newPage1.waitForLoadState()
 
-  await page.waitForTimeout(5000)
   const approveLeapPage1 = new LeapPage(newPage1)
   await approveLeapPage1.approveBtn.click()
+  await page.waitForTimeout(15_000)
 
-  await page.waitForLoadState('load')
-  await page.waitForTimeout(10_000)
-
-  await homePage.addressDropBtn.click()
-  await homePage.dropAddress2.click()
+  await homePage.addressDropBtn.waitFor({state: 'visible'})
+  await homePage.addressDropBtn.click( {delay: 500})
+  await homePage.dropAddress2.waitFor({state: 'visible'})
+  await homePage.dropAddress2.click({delay: 500})
 
   await homePage.copyEVMAddressBtn.click()
   const copiedEVMAddressText = await page.evaluate(() => navigator.clipboard.readText())

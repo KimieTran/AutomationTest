@@ -41,7 +41,15 @@
       }
     }
   },
-  "permissions": ["storage", "sidePanel", "activeTab", "tabs"],
+  "permissions": ["storage", "sidePanel", "activeTab", "tabs",   
+  "alarms",
+  "clipboardWrite",
+  "notifications",
+  "scripting",
+  "unlimitedStorage",
+  "webRequest",
+  "offscreen"
+],
   "content_security_policy": {
     "extension_pages": "object-src 'none'; script-src 'self' 'wasm-unsafe-eval'; img-src * 'self' data: https:; font-src https://fonts.gstatic.com; style-src 'self' https://fonts.googleapis.com  data: 'unsafe-inline'; connect-src * data: blob: filesystem:; media-src * data: blob: filesystem:; form-action 'self'; frame-ancestors 'none';frame-src https://newassets.hcaptcha.com https://www.google.com/; base-uri 'self'; default-src 'none'"
   }

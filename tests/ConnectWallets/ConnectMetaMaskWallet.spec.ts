@@ -45,12 +45,12 @@ test.beforeAll('Add extension: MetaMask', async () => {
 
 })
 test('Connect MetaMask wallet', async () => {
-  test.setTimeout(180_000)
+  test.setTimeout(120_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
   page.waitForLoadState()
   expect(homePage.spotHistory).toBeTruthy();
-  await homePage.carbonTestnet.click({ timeout: 10_000 });
+  await homePage.carbonTestnet.click();
   await homePage.mantle.click()
   await page.waitForLoadState()
 
@@ -63,29 +63,27 @@ test('Connect MetaMask wallet', async () => {
 
   const [newPage1] = await Promise.all([
     browserContext.waitForEvent('page'),
-    await connectWalletPage.metaMaskBtn.click()
+    await connectWalletPage.metaMaskBtn.click({delay: 500})
   ]);
   await newPage1.waitForLoadState()
 
-  await page.waitForTimeout(5000)
   const metaMaskPage1 = new MetaMaskPage(newPage1)
   await metaMaskPage1.connectBtn.click()
-  await newPage1.waitForLoadState()
 
   const [newPage2] = await Promise.all([
     browserContext.waitForEvent('page'),
   ]);
   await newPage2.waitForLoadState()
 
-  await page.waitForTimeout(10_000)
   const metaMaskPage2 = new MetaMaskPage(newPage2)
   await metaMaskPage2.confirmFooterBtn.click()
 
-  await page.waitForLoadState('load')
   await page.waitForTimeout(15_000)
 
-  await homePage.addressMetaMaskDropBtn.click()
-  await homePage.dropAddress2.click()
+  await homePage.addressMetaMaskDropBtn.waitFor({state: 'visible'})
+  await homePage.addressMetaMaskDropBtn.click( {delay: 500})
+  await homePage.dropAddress2.waitFor({state: 'visible'})
+  await homePage.dropAddress2.click({delay: 500})
 
   await homePage.copyEVMAddressBtn.click()
   const copiedEVMAddressText = await page.evaluate(() => navigator.clipboard.readText())
