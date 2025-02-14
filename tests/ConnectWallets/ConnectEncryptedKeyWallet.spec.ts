@@ -25,7 +25,7 @@ test('Connect wallet by Encrypted Key', async () => {
   expect(homePage.spotHistory).toBeTruthy();
   await homePage.carbonTestnet.click();
   await homePage.mantle.click()
-  await page.waitForLoadState()
+  await page.waitForTimeout(10_000)
 
   const tradePage = new TradeTradePage(page);
   await tradePage.headerConnectWallet.click();
@@ -33,19 +33,21 @@ test('Connect wallet by Encrypted Key', async () => {
   const connectWalletPage = new ConnectWalletPage(page)
   await connectWalletPage.selectWallet.isVisible()
 
-  await connectWalletPage.encryptedKeyBtn.click( { delay: 1500 })
+  await connectWalletPage.encryptedKeyBtn.click( { delay: 2000 })
   const encryptedKeyPage = new EncryptedKeyPage(page)
 
+  await encryptedKeyPage.encryptedKeyTextbox.waitFor({state: 'visible'})
   await encryptedKeyPage.encryptedKeyTextbox.fill(encryptedKey)
   await encryptedKeyPage.passwordTextbox.fill(passworld)
-  await encryptedKeyPage.connectBtn.click({delay: 1500})
+  await encryptedKeyPage.connectBtn.waitFor({state: 'visible'})
+  await encryptedKeyPage.connectBtn.click({delay: 2000})
   await encryptedKeyPage.connectBtn.waitFor({state: 'detached'})
 
-  await page.waitForTimeout(15_000)
+  await page.waitForTimeout(20_000)
   await homePage.addressDropBtn.waitFor({state: 'visible'})
-  await homePage.addressDropBtn.click( {delay: 500})
+  await homePage.addressDropBtn.click( {delay: 100})
   await homePage.dropAddress2.waitFor({state: 'visible'})
-  await homePage.dropAddress2.click({delay: 500})
+  await homePage.dropAddress2.click({delay: 100})
 
   await homePage.copyEVMAddressBtn.click()
   const copiedEVMAddressText = await page.evaluate(() => navigator.clipboard.readText())

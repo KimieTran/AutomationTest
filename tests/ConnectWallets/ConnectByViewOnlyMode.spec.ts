@@ -24,7 +24,7 @@ test('Connect wallet by View Only Mode', async () => {
   expect(homePage.spotHistory).toBeTruthy();
   await homePage.carbonTestnet.click();
   await homePage.mantle.click()
-  await page.waitForLoadState()
+  await page.waitForTimeout(15_000)
 
   const tradePage = new TradeTradePage(page);
   await tradePage.headerConnectWallet.click();
@@ -32,12 +32,14 @@ test('Connect wallet by View Only Mode', async () => {
   const connectWalletPage = new ConnectWalletPage(page)
   await connectWalletPage.selectWallet.isVisible()
 
-  await connectWalletPage.viewOnlyMode.click( { delay: 1000 })
+  await connectWalletPage.viewOnlyMode.waitFor({ state: "visible" })
+  await connectWalletPage.viewOnlyMode.scrollIntoViewIfNeeded()
+  await connectWalletPage.viewOnlyMode.click( { delay: 2000 })
   const viewOnlyModePage = new ViewOnlyModePage(page)
 
   await viewOnlyModePage.walletAddressTextbox.click()
   await viewOnlyModePage.walletAddressTextbox.fill(swth1Address)
-  await viewOnlyModePage.viewBtn.click({ delay: 1000 })
+  await viewOnlyModePage.viewBtn.click({ delay: 2000 })
   await viewOnlyModePage.viewBtn.waitFor({state: 'detached'})
 
   await page.waitForTimeout(15_000)

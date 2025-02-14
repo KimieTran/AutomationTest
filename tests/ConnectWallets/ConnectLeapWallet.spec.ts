@@ -51,13 +51,14 @@ test.beforeAll('Add extension: Leap', async () => {
 
 })
 test('Connect Leap wallet', async () => {
-  test.setTimeout(120_000)
+  test.setTimeout(150_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
   expect(homePage.spotHistory).toBeTruthy();
   await homePage.carbonTestnet.click();
   await homePage.mantle.click()
   await page.waitForLoadState()
+  await page.waitForTimeout(10_000)
 
   const tradePage = new TradeTradePage(page);
   await tradePage.headerConnectWallet.click();
@@ -66,30 +67,32 @@ test('Connect Leap wallet', async () => {
   await connectWalletPage.selectWallet.isVisible()
 
   await connectWalletPage.leapBtn.waitFor({state: 'visible'})
-  await connectWalletPage.leapBtn.dblclick({delay: 1000})
+  await connectWalletPage.leapBtn.click({delay: 2000, force: true})
   const leapPage = new LeapPage(page)
-  await leapPage.connectBtn.click({delay: 2000})
+  await leapPage.connectBtn.waitFor({state: 'visible'})
 
   const [newPage] = await Promise.all([
-    browserContext.waitForEvent('page')
+    browserContext.waitForEvent('page'),
+    await leapPage.connectBtn.click({delay: 2000})
   ]);
   await newPage.waitForLoadState()
   
   const approveLeapPage = new LeapPage(newPage)
   const [newPage1] = await Promise.all([
     browserContext.waitForEvent('page'),
-    await approveLeapPage.connectBtn.click({delay: 1500})
+    await approveLeapPage.connectBtn.click({delay: 2000})
   ]);
   await newPage1.waitForLoadState()
 
   const approveLeapPage1 = new LeapPage(newPage1)
-  await approveLeapPage1.approveBtn.click({delay: 1500})
-  await page.waitForTimeout(15_000)
+  await approveLeapPage1.approveBtn.waitFor({state: 'visible'})
+  await approveLeapPage1.approveBtn.click({delay: 1000})
+  await page.waitForTimeout(20_000)
 
   await homePage.addressDropBtn.waitFor({state: 'visible'})
-  await homePage.addressDropBtn.click( {delay: 500})
+  await homePage.addressDropBtn.click( {delay: 100})
   await homePage.dropAddress2.waitFor({state: 'visible'})
-  await homePage.dropAddress2.click({delay: 500})
+  await homePage.dropAddress2.click({delay: 100})
 
   await homePage.copyEVMAddressBtn.click()
   const copiedEVMAddressText = await page.evaluate(() => navigator.clipboard.readText())

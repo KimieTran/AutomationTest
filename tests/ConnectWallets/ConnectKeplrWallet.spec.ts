@@ -11,7 +11,7 @@ const srpArr = ["trip", "harvest", "pride", "matrix", "alcohol", "brain", "respo
 const passworld = 'Abc12345789'
 const extensionName = "keplr"
 const walletName = "Keplr Testing"
-test.skip('Add extension: Keplr', async () => {
+test.beforeAll('Add extension: Keplr', async () => {
   test.setTimeout(90_000)
   browserContext = await createBrowserContext(extensionName)
   page = await browserContext.newPage()
@@ -41,12 +41,12 @@ test.skip('Add extension: Keplr', async () => {
   await keplrPage.confirmPasswordTextBox.fill(passworld)
   await keplrPage.nextBtn.click()
   await keplrPage.saveBtn.click()
-  await keplrPage.finishBtn.click()
+  //await keplrPage.finishBtn.click()
   await page.bringToFront()
 
 })
-test.skip('Connect Keplr wallet', async () => {
-  test.setTimeout(90_000)
+test('Connect Keplr wallet', async () => {
+  test.setTimeout(120_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
   page.waitForLoadState()
@@ -54,16 +54,21 @@ test.skip('Connect Keplr wallet', async () => {
   await homePage.carbonTestnet.click()
   await homePage.mantle.click()
   await page.waitForLoadState()
+  await page.waitForTimeout(10_000)
 
   const tradePage = new TradeTradePage(page);
   await tradePage.headerConnectWallet.click();
 
   const connectWalletPage = new ConnectWalletPage(page)
   await connectWalletPage.selectWallet.isVisible()
+  await connectWalletPage.keplrBtn.waitFor({state: 'visible'})
+  await connectWalletPage.keplrBtn.click({ delay: 2000 })
 
+  const keplrPage = new KeplrPage(page)
+  await keplrPage.connectBtn.waitFor({state: 'visible'})
   const [newPage1] = await Promise.all([
     browserContext.waitForEvent('page'),
-    await connectWalletPage.keplrBtn.click({ delay: 1000 })
+    await keplrPage.connectBtn.click({ delay: 2000 })
   ]);
   await newPage1.waitForLoadState()
 
@@ -82,11 +87,10 @@ test.skip('Connect Keplr wallet', async () => {
   await newPage3.waitForLoadState()
 
   await page.waitForTimeout(15_000)
-
   await homePage.addressDropBtn.waitFor({state: 'visible'})
-  await homePage.addressDropBtn.click( {delay: 500})
+  await homePage.addressDropBtn.click( {delay: 100})
   await homePage.dropAddress2.waitFor({state: 'visible'})
-  await homePage.dropAddress2.click({delay: 500})
+  await homePage.dropAddress2.click({delay: 100})
 
   await homePage.copyEVMAddressBtn.click()
   const copiedEVMAddressText = await page.evaluate(() => navigator.clipboard.readText())

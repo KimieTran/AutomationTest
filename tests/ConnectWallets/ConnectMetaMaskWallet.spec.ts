@@ -54,21 +54,22 @@ test('Connect MetaMask wallet', async () => {
   await homePage.mantle.click()
   await page.waitForLoadState()
 
-  await page.waitForTimeout(5000)
+  await page.waitForTimeout(15_000)
   const tradePage = new TradeTradePage(page);
   await tradePage.headerConnectWallet.click();
 
   const connectWalletPage = new ConnectWalletPage(page)
   await connectWalletPage.selectWallet.isVisible()
+  await connectWalletPage.metaMaskBtn.waitFor({ state: 'visible' })
 
   const [newPage1] = await Promise.all([
     browserContext.waitForEvent('page'),
-    await connectWalletPage.metaMaskBtn.click({delay: 1500})
+    await connectWalletPage.metaMaskBtn.click({delay: 2000})
   ]);
   await newPage1.waitForLoadState()
 
   const metaMaskPage1 = new MetaMaskPage(newPage1)
-  await metaMaskPage1.connectBtn.click({delay: 1500})
+  await metaMaskPage1.connectBtn.click({delay: 1000})
 
   const [newPage2] = await Promise.all([
     browserContext.waitForEvent('page'),
@@ -76,14 +77,13 @@ test('Connect MetaMask wallet', async () => {
   await newPage2.waitForLoadState()
 
   const metaMaskPage2 = new MetaMaskPage(newPage2)
-  await metaMaskPage2.confirmFooterBtn.click({delay: 1500})
+  await metaMaskPage2.confirmFooterBtn.click({delay: 1000})
 
-  await page.waitForTimeout(15_000)
-
+  await page.waitForTimeout(20_000)
   await homePage.addressMetaMaskDropBtn.waitFor({state: 'visible'})
-  await homePage.addressMetaMaskDropBtn.click( {delay: 500})
+  await homePage.addressMetaMaskDropBtn.click( {delay: 100})
   await homePage.dropAddress2.waitFor({state: 'visible'})
-  await homePage.dropAddress2.click({delay: 500})
+  await homePage.dropAddress2.click({delay: 100})
 
   await homePage.copyEVMAddressBtn.click()
   const copiedEVMAddressText = await page.evaluate(() => navigator.clipboard.readText())
