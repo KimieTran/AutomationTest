@@ -7,6 +7,7 @@ export class ConnectWalletPage{
     readonly leapBtn: Locator
     readonly encryptedKeyBtn: Locator
     readonly viewOnlyMode: Locator
+    readonly connectWithGoogle: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -17,7 +18,7 @@ export class ConnectWalletPage{
         this.encryptedKeyBtn = this.page.getByRole('button', { name: 'Encrypted Key' })
         //this.viewOnlyMode = this.page.getByText('View-Only Mode').nth(1)
         this.viewOnlyMode = this.page.getByRole('list').filter({ hasText: 'View-Only Mode' }).locator('rect')
-
+        this.connectWithGoogle = this.page.getByText('Connect with Google').nth(1)
     }
 
 

@@ -44,9 +44,9 @@ test('Connect wallet by View Only Mode', async () => {
 
   await page.waitForTimeout(15_000)
   await homePage.addressDropBtn.waitFor({state: 'visible'})
-  await homePage.addressDropBtn.click({ force: true })
+  await homePage.addressDropBtn.click({ delay: 100 })
   await homePage.firstCopyClipBoardBtn.waitFor({state: 'visible'})
-  await homePage.firstCopyClipBoardBtn.click()
+  await homePage.firstCopyClipBoardBtn.click({ delay: 100 })
 
   const copiedSWTH1ddressText = await page.evaluate(() => navigator.clipboard.readText())
   expect(copiedSWTH1ddressText.trim()).toMatch(swth1Address)
