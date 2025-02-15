@@ -46,12 +46,9 @@ test('Connect with Google', async () => {
   await googleLoginPage.continueBtn.click()
 
   try {
-    if(await googleLoginPage.skipForNowBtn.isVisible({timeout: 3000})){
-      await googleLoginPage.skipForNowBtn.click()
-    }
-  } catch (error) {
-    console.log("2FA screen not displayed")
-  }
+    await googleLoginPage.skipForNowBtn.waitFor({state: 'visible', timeout: 5000})
+    await googleLoginPage.skipForNowBtn.click()
+  } catch (error){}
 
   await page.waitForTimeout(20_000)
   await homePage.addressDropBtn.waitFor({state: 'visible'})
