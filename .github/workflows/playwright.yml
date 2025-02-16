@@ -16,20 +16,19 @@ jobs:
     - name: Install Xvfb
       run: |
         sudo apt-get install -y xvfb
-        export DISPLAY=:99
-        Xvfb :99 -screen 0 1024x768x24 &    
+        export DISPLAY=:99 Xvfb :99 -screen 0 1024x768x24 &    
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" npx playwright test
+      run: npx playwright test
     - name: Upload Playwright videos
       if: failure()
       uses: actions/upload-artifact@v4
       with:
         name: playwright-videos
-        path: test-results/**/*.webm
+        path: test-results/**
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:

@@ -67,7 +67,7 @@ test('Connect Leap wallet', async () => {
   await connectWalletPage.selectWallet.isVisible()
 
   await connectWalletPage.leapBtn.waitFor({state: 'visible'})
-  await connectWalletPage.leapBtn.click({delay: 2000, force: true})
+  await connectWalletPage.leapBtn.click({delay: 2000})
   const leapPage = new LeapPage(page)
   await leapPage.connectBtn.waitFor({state: 'visible'})
 

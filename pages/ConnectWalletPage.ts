@@ -8,6 +8,7 @@ export class ConnectWalletPage{
     readonly encryptedKeyBtn: Locator
     readonly viewOnlyMode: Locator
     readonly connectWithGoogle: Locator
+    readonly connectWithX: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -19,6 +20,7 @@ export class ConnectWalletPage{
         //this.viewOnlyMode = this.page.getByText('View-Only Mode').nth(1)
         this.viewOnlyMode = this.page.getByRole('list').filter({ hasText: 'View-Only Mode' }).locator('rect')
         this.connectWithGoogle = this.page.getByText('Connect with Google').nth(1)
+        this.connectWithX = this.page.getByText('Connect with X').nth(1)
     }
 
 

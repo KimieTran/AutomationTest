@@ -7,6 +7,7 @@ export class GoogleLoginPage{
     readonly continueBtn: Locator
     readonly setup2FABtn: Locator
     readonly skipForNowBtn: Locator
+    readonly enable2FactorText: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -16,6 +17,7 @@ export class GoogleLoginPage{
         this.continueBtn = this.page.getByRole('button', { name: 'Continue' })
         this.setup2FABtn = this.page.getByRole('button', { name: 'Set up 2FA' })
         this.skipForNowBtn = this.page.getByRole('button', { name: 'Skip for Now' })
+        this.enable2FactorText = this.page.getByText('Enable 2 Factor')
     }
 
 

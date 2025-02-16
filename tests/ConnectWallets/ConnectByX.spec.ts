@@ -2,12 +2,13 @@ import { test, expect, Page, BrowserContext, chromium } from '@playwright/test'
 import { HomePage } from '../../pages/HomePage.page';
 import { TradeTradePage } from '../../pages/TradeTradePage.page';
 import { ConnectWalletPage } from '../../pages/ConnectWalletPage';
-import { GoogleLoginPage } from '../../pages/GoogleLoginPage';
+import { XLoginPage } from '../../pages/XLoginPage';
 
 let page: Page
 let browserContext: BrowserContext
 const emailAddress = "demex.test2025@gmail.com"
 const password = "Abc123456789@"
+const xUsername = "DemexTest2025"
 
 test.beforeAll('Launch browser context with permission', async () => {
   const browser = await chromium.launch()
@@ -18,8 +19,8 @@ test.beforeAll('Launch browser context with permission', async () => {
 
 })
 
-test('Connect with Google', async () => {
-  test.setTimeout(100_000)
+test('Connect with X', async () => {
+  test.setTimeout(120_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
   expect(homePage.spotHistory).toBeTruthy();
@@ -33,19 +34,28 @@ test('Connect with Google', async () => {
   const connectWalletPage = new ConnectWalletPage(page)
   await connectWalletPage.selectWallet.isVisible()
 
-  await connectWalletPage.connectWithGoogle.waitFor({ state: "visible" })
-  await connectWalletPage.connectWithGoogle.click( { delay: 2000 })
-  const googleLoginPage = new GoogleLoginPage(page)
+  await connectWalletPage.connectWithX.waitFor({ state: "visible" })
+  await connectWalletPage.connectWithX.click( { delay: 2000 })
+  const xLoginPage = new XLoginPage(page)
 
-  await googleLoginPage.emailTextbox.fill(emailAddress)
-  await googleLoginPage.nextBtn.click()
-  await googleLoginPage.passwordTextbox.fill(password)
-  await googleLoginPage.nextBtn.click()
-  await googleLoginPage.continueBtn.click()
+  await xLoginPage.signInBtn.click({delay: 1000})
+  await xLoginPage.signInBtn.click({delay: 1000})
+  await xLoginPage.emailTextbox.fill(emailAddress)
+  await xLoginPage.nextBtn.click()
 
   try {
-    await googleLoginPage.skipForNowBtn.waitFor({ state: 'visible', timeout: 10_000 })
-    await googleLoginPage.skipForNowBtn.click({ delay: 1000 })
+    await xLoginPage.userNameDisplayedText.waitFor({ state: 'visible', timeout: 10_000 })
+    await xLoginPage.userNameTextbox.fill(xUsername)
+    await xLoginPage.nextBtn.click()
+
+  } catch (error){}
+
+  await xLoginPage.passwordTextbox.fill(password)
+  await xLoginPage.loginBtn.click()
+
+  try {
+    await xLoginPage.skipForNowBtn.waitFor({ state: 'visible', timeout: 10_000 })
+    await xLoginPage.skipForNowBtn.click({ delay: 1000 })
 
   } catch (error){}
 
