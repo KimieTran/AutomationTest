@@ -14,6 +14,7 @@ export class HomePage{
     readonly carbonTestnet: Locator
     readonly mantle: Locator
     readonly addressMetaMaskDropBtn: Locator
+    readonly addressPhantomDropBtn: Locator
     readonly dropAddress2: Locator
     readonly evmAddress: Locator
     readonly copyEVMAddressBtn: Locator
@@ -37,6 +38,7 @@ export class HomePage{
         this.carbonTestnet=this.page.getByRole('paragraph').filter({ hasText: 'Carbon Testnet' })
         this.mantle=this.page.getByText('Mantle')
         this.addressMetaMaskDropBtn = this.page.getByRole('img', { name: 'MetaMask' })
+        this.addressPhantomDropBtn = this.page.getByRole('img', { name: 'Phantom' })
         this.dropAddress2 = this.page.locator('div[title="Copy to Clipboard"]').locator('xpath=following-sibling::div')
         this.evmAddress=this.page.locator('//p[contains(text(), "EVM Address")]/following-sibling::div/div/div')
         this.carbonAddress=this.page.getByText('Carbon Address').locator('xpath=following-sibling::div')

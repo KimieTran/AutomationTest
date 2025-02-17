@@ -64,7 +64,7 @@ test('Connect MetaMask wallet', async () => {
 
   const [newPage1] = await Promise.all([
     browserContext.waitForEvent('page'),
-    await connectWalletPage.metaMaskBtn.click({delay: 2000})
+    await connectWalletPage.metaMaskBtn.click({delay: 1000})
   ]);
   await newPage1.waitForLoadState()
 

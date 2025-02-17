@@ -3,6 +3,7 @@ export class ConnectWalletPage{
     readonly page: Page;
     readonly selectWallet: Locator
     readonly metaMaskBtn: Locator
+    readonly phantomBtn: Locator
     readonly keplrBtn: Locator
     readonly leapBtn: Locator
     readonly encryptedKeyBtn: Locator
@@ -14,6 +15,7 @@ export class ConnectWalletPage{
         this.page=page;
         this.selectWallet = this.page.getByRole('heading', { name: 'Select Wallet' })
         this.metaMaskBtn = this.page.getByRole('button', { name: 'Metamask' })
+        this.phantomBtn = this.page.getByRole('button', { name: 'Phantom' })
         this.keplrBtn = this.page.getByRole('button', { name: 'Keplr' })
         this.leapBtn = this.page.getByRole('button', { name: 'Leap' })
         this.encryptedKeyBtn = this.page.getByRole('button', { name: 'Encrypted Key' })
