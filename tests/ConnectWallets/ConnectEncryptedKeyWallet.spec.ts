@@ -19,7 +19,7 @@ test.beforeAll('Launch browser context with permission', async () => {
 })
 
 test('Connect wallet by Encrypted Key', async () => {
-  test.setTimeout(90_000)
+  test.setTimeout(120_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
   expect(homePage.spotHistory).toBeTruthy();

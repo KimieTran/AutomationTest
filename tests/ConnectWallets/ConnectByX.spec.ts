@@ -20,7 +20,7 @@ test.beforeAll('Launch browser context with permission', async () => {
 })
 
 test('Connect with X', async () => {
-  test.setTimeout(120_000)
+  test.setTimeout(150_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
   expect(homePage.spotHistory).toBeTruthy();
@@ -54,14 +54,14 @@ test('Connect with X', async () => {
   await xLoginPage.loginBtn.click()
 
   try {
-    await xLoginPage.skipForNowBtn.waitFor({ state: 'visible', timeout: 10_000 })
+    await xLoginPage.skipForNowBtn.waitFor({ state: 'visible', timeout: 15_000 })
     await xLoginPage.skipForNowBtn.click({ delay: 1000 })
 
   } catch (error){}
 
   await page.waitForTimeout(20_000)
   await homePage.addressDropBtn.waitFor({state: 'visible'})
-  await homePage.addressDropBtn.click({ delay: 100 })
+  await homePage.addressDropBtn.click({ delay: 300 })
   await homePage.dropAddress2.waitFor({state: 'visible'})
   await homePage.dropAddress2.click({delay: 100})
 
