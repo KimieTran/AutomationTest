@@ -12,6 +12,12 @@ export class PhantomPage{
     readonly confirmPasswordTextBox: Locator
     readonly termServiceCheckbox: Locator
     readonly connectBtn: Locator
+    readonly depositBtn: Locator
+    readonly myBrowerWallet: Locator
+    readonly selectNetworkBtn: Locator
+    readonly bscNetworkOption: Locator
+    readonly amountTextbox: Locator
+    readonly depositBtnn: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -25,6 +31,13 @@ export class PhantomPage{
         this.confirmPasswordTextBox = this.page.getByTestId('onboarding-form-confirm-password-input')
         this.termServiceCheckbox = this.page.getByTestId('onboarding-form-terms-of-service-checkbox')
         this.connectBtn = this.page.getByTestId('primary-button')
+        this.depositBtn = this.page.getByText('Deposit', { exact: true }).first()
+        this.myBrowerWallet = this.page.getByText('My Browser Wallet')
+        this.selectNetworkBtn = this.page.getByRole('button', { name: 'Select Network' })
+        this.bscNetworkOption = this.page.getByText('Binance Smart Chain')
+        //locator('div').filter({ hasText: /^Binance Smart Chain$/ }).first()
+        this.amountTextbox = this.page.getByRole('spinbutton').first()
+        this.depositBtnn = this.page.locator('div').filter({ hasText: /^Deposit Amount \(After Fees\)0\.00000 USDC\$0\.00000Deposit$/ }).getByRole('button')
     }
 
 
