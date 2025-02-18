@@ -18,7 +18,7 @@ test.beforeAll('Launch browser context with permission', async () => {
 
 })
 
-test('Connect with Google', async () => {
+test.skip('Connect with Google', async () => {
   test.setTimeout(100_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()

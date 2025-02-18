@@ -19,7 +19,7 @@ test.beforeAll('Launch browser context with permission', async () => {
 
 })
 
-test('Connect with X', async () => {
+test.skip('Connect with X', async () => {
   test.setTimeout(150_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()

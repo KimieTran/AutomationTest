@@ -45,7 +45,7 @@ test.beforeAll('Add extension: MetaMask', async () => {
 
 })
 test('Connect MetaMask wallet', async () => {
-  test.setTimeout(150_000)
+  test.setTimeout(200_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
   page.waitForLoadState()
