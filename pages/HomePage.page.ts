@@ -35,8 +35,8 @@ export class HomePage{
         this.fundingDataChart=page.locator('xpath=//*[name()="svg" and @class="recharts-surface"]');
         this.orderBook=page.locator('xpath=//p[text()="Order Book"]');
         this.orderPrice=page.locator('xpath=//p[text()="Order Price"]');
-        //this.carbonTestnet=this.page.getByRole('paragraph').filter({ hasText: 'Carbon Testnet' })
-        this.carbonTestnet=this.page.getByRole('paragraph').filter({ hasText: 'Carbon Devnet' })
+        this.carbonTestnet=this.page.getByRole('paragraph').filter({ hasText: 'Carbon Testnet' })
+        //this.carbonTestnet=this.page.getByRole('paragraph').filter({ hasText: 'Carbon Devnet' })
         this.mantle=this.page.getByText('Mantle')
         this.addressMetaMaskDropBtn = this.page.getByRole('img', { name: 'MetaMask' })
         this.addressPhantomDropBtn = this.page.getByRole('img', { name: 'Phantom' })
@@ -51,7 +51,7 @@ export class HomePage{
     }
 
     async goToHomePage(){
-        await this.page.goto('https://alpha-app.dem.exchange/');
+        await this.page.goto('https://beta-app.dem.exchange/');
     }
 
 

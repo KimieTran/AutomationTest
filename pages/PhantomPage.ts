@@ -15,9 +15,11 @@ export class PhantomPage{
     readonly depositBtn: Locator
     readonly myBrowerWallet: Locator
     readonly selectNetworkBtn: Locator
-    readonly bscNetworkOption: Locator
+    readonly ethNetworkOption: Locator
     readonly amountTextbox: Locator
     readonly depositBtnn: Locator
+    readonly errorAmountMsg: Locator
+    
 
     constructor (page:Page){
         this.page=page;
@@ -34,9 +36,9 @@ export class PhantomPage{
         this.depositBtn = this.page.getByText('Deposit', { exact: true }).first()
         this.myBrowerWallet = this.page.getByText('My Browser Wallet')
         this.selectNetworkBtn = this.page.getByRole('button', { name: 'Select Network' })
-        this.bscNetworkOption = this.page.getByText('Binance Smart Chain')
-        //locator('div').filter({ hasText: /^Binance Smart Chain$/ }).first()
+        this.ethNetworkOption = this.page.getByText('Ethereum')
         this.amountTextbox = this.page.getByRole('spinbutton').first()
+        this.errorAmountMsg = this.page.getByText('Insufficient balance')
         this.depositBtnn = this.page.locator('div').filter({ hasText: /^Deposit Amount \(After Fees\)0\.00000 USDC\$0\.00000Deposit$/ }).getByRole('button')
     }
 

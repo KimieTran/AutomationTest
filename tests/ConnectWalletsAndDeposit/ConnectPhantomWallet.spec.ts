@@ -4,11 +4,12 @@ import { HomePage } from '../../pages/HomePage.page';
 import { TradeTradePage } from '../../pages/TradeTradePage.page';
 import { ConnectWalletPage } from '../../pages/ConnectWalletPage';
 import { PhantomPage } from '../../pages/PhantomPage';
+import { DepositPage } from '../../pages/DepositPage';
 
 let page: Page
 let browserContext: BrowserContext
 const srpArr = ["doll", "injury", "material", "wise", "matrix", "pet", "debate", "asset", "forest", "online", "toss", "holiday"]
-const password = 'Abc12345789'
+const password = 'Abc123456789'
 const extensionName = "phantom"
 test.beforeAll('Add extension: Phantom', async () => {
   test.setTimeout(90_000)
@@ -38,9 +39,9 @@ test.beforeAll('Add extension: Phantom', async () => {
   await page.bringToFront()
 
 })
-test.describe.serial('Connect Phantom wallet & deposit token', () => {
+test.describe.serial('Connect Phantom wallet & Verify deposit', () => {
   test('Connect Phantom wallet', async () => {
-    test.setTimeout(120_000)
+    test.setTimeout(150_000)
     const homePage = new HomePage(page)
     await homePage.goToHomePage()
     page.waitForLoadState()
@@ -88,14 +89,14 @@ test.describe.serial('Connect Phantom wallet & deposit token', () => {
 
   })
 
-  test('Deposit token', async () => {
-    test.setTimeout(90_000)
-    const phantomPage = new PhantomPage(page)
-    await phantomPage.depositBtn.click()
-    await phantomPage.myBrowerWallet.click()
-    await phantomPage.selectNetworkBtn.click()
-    await phantomPage.bscNetworkOption.click()
-    //await phantomPage.amountTextbox.fill('0.1')
-    await phantomPage.depositBtnn.click()
+  test('Verify that the validation form is presented when user performed deposit amount = 0', async () => {
+    const depositPage = new DepositPage(page)
+    await depositPage.depositBtn.click()
+    await depositPage.myBrowerWallet.click()
+    await depositPage.selectNetworkBtn.click()
+    await depositPage.networkOption('Ethereum').click()
+    await depositPage.amountTextbox.fill('0')
+    await depositPage.phantomDepositBtnn.click()
+    await expect(depositPage.errorAmountMsg).toBeVisible()
   })
 })
