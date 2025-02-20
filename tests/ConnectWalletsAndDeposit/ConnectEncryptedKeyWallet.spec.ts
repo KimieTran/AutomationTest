@@ -19,7 +19,7 @@ test.beforeAll('Launch browser context with permission', async () => {
 
 })
 
-test.describe.serial('Connect Phantom wallet & Verify deposit', () => {
+test.describe.serial('Connect Leap wallet  by Encrypted Key & Verify deposit', () => {
   test('Connect Leap wallet by Encrypted Key', async () => {
     test.setTimeout(120_000)
     const homePage = new HomePage(page)

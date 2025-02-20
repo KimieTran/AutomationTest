@@ -68,7 +68,7 @@ test('Connect Keplr wallet', async () => {
   await keplrPage.connectBtn.waitFor({state: 'visible'})
   const [newPage1] = await Promise.all([
     browserContext.waitForEvent('page'),
-    await keplrPage.connectBtn.click({ delay: 2000 })
+    await keplrPage.connectBtn.click({ delay: 1000 })
   ]);
   await newPage1.waitForLoadState()
 

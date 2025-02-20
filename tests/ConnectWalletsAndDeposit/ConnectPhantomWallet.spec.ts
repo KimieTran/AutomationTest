@@ -96,7 +96,7 @@ test.describe.serial('Connect Phantom wallet & Verify deposit', () => {
     await depositPage.selectNetworkBtn.click()
     await depositPage.networkOption('Ethereum').click()
     await depositPage.amountTextbox.fill('0')
-    await depositPage.phantomDepositBtnn.click()
+    await depositPage.phantomDepositBtn.click()
     await expect(depositPage.errorAmountMsg).toBeVisible()
   })
 })

@@ -39,6 +39,7 @@ test('Connect wallet by View Only Mode', async () => {
 
   await viewOnlyModePage.walletAddressTextbox.click()
   await viewOnlyModePage.walletAddressTextbox.fill(swth1Address)
+  await viewOnlyModePage.walletAddressTextbox.press('Tab')
   await viewOnlyModePage.viewBtn.click({ delay: 2000 })
   await viewOnlyModePage.viewBtn.waitFor({state: 'detached'})
 
