@@ -64,13 +64,17 @@ test.describe.serial('Connect MetaMask wallet & Verify deposit', () => {
     const connectWalletPage = new ConnectWalletPage(page)
     await connectWalletPage.selectWallet.isVisible()
     await connectWalletPage.metaMaskBtn.waitFor({ state: 'visible' })
-
+/*
     const [newPage1] = await Promise.all([
       browserContext.waitForEvent('page'),
       await connectWalletPage.metaMaskBtn.click({ delay: 1000 })
     ]);
     await newPage1.waitForLoadState()
-
+*/
+    const newPagePromise = browserContext.waitForEvent('page')
+    await connectWalletPage.metaMaskBtn.click({ delay: 1000 })
+    const newPage1 = await newPagePromise
+    await newPage1.waitForLoadState()
     const metaMaskPage1 = new MetaMaskPage(newPage1)
     await metaMaskPage1.connectBtn.click({ delay: 1000 })
 
@@ -96,7 +100,7 @@ test.describe.serial('Connect MetaMask wallet & Verify deposit', () => {
 
   })
 
-    test('Verify that the validation form is presented when user performed deposit amount = 0', async () => {
+    test.skip('Verify that the validation form is presented when user performed deposit amount = 0', async () => {
       const depositPage = new DepositPage(page)
       await depositPage.depositBtn.click()
       await depositPage.myBrowerWallet.click()

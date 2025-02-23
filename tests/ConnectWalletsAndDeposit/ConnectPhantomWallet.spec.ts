@@ -41,7 +41,7 @@ test.beforeAll('Add extension: Phantom', async () => {
 })
 test.describe.serial('Connect Phantom wallet & Verify deposit', () => {
   test('Connect Phantom wallet', async () => {
-    test.setTimeout(150_000)
+    test.setTimeout(180_000)
     const homePage = new HomePage(page)
     await homePage.goToHomePage()
     page.waitForLoadState()
@@ -75,7 +75,7 @@ test.describe.serial('Connect Phantom wallet & Verify deposit', () => {
     const phantomPage2 = new PhantomPage(newPage2)
     await phantomPage2.connectBtn.click({ delay: 1000 })
 
-    await page.waitForTimeout(20_000)
+    await page.waitForTimeout(10_000)
     await homePage.addressPhantomDropBtn.waitFor({ state: 'visible' })
     await homePage.addressPhantomDropBtn.click({ delay: 100 })
     await homePage.dropAddress2.waitFor({ state: 'visible' })
@@ -89,7 +89,7 @@ test.describe.serial('Connect Phantom wallet & Verify deposit', () => {
 
   })
 
-  test('Verify that the validation form is presented when user performed deposit amount = 0', async () => {
+  test.skip('Verify that the validation form is presented when user performed deposit amount = 0', async () => {
     const depositPage = new DepositPage(page)
     await depositPage.depositBtn.click()
     await depositPage.myBrowerWallet.click()

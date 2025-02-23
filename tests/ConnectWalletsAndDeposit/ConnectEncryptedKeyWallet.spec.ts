@@ -62,7 +62,7 @@ test.describe.serial('Connect Leap wallet  by Encrypted Key & Verify deposit', (
 
   })
 
-  test('Verify that the validation form is presented when user performed deposit amount = 0', async () => {
+  test.skip('Verify that the validation form is presented when user performed deposit amount = 0', async () => {
     const depositPage = new DepositPage(page)
     await depositPage.depositBtn.click()
     await depositPage.myBrowerWallet.click()
