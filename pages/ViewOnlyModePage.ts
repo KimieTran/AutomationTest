@@ -7,7 +7,7 @@ export class ViewOnlyModePage{
     constructor (page:Page){
         this.page=page;
         this.walletAddressTextbox = this.page.getByRole('textbox', { name: 'swth1...' })
-        this.viewBtn = this.page.getByText('Wallet AddressView').nth(1)
+        this.viewBtn = this.page.getByRole('button', { name: 'View' })
 
     }
 

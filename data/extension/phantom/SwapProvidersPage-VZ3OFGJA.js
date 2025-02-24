@@ -1,0 +1,24 @@
+import{H as S,Ma as k}from"./chunk-FADT747G.js";import"./chunk-LTPMKRAS.js";import"./chunk-3JF2QXJE.js";import"./chunk-OLW3L37F.js";import"./chunk-CCUXU2GU.js";import"./chunk-PTZJLI7L.js";import"./chunk-QHN65AEO.js";import{a as y}from"./chunk-KS7RCTZG.js";import{a as x}from"./chunk-QEXGR5WT.js";import"./chunk-L4RFQ6RY.js";import"./chunk-SHAEZV7V.js";import"./chunk-S24UABH5.js";import"./chunk-ZE6HXUUA.js";import{a as g}from"./chunk-X3ESGVCB.js";import"./chunk-5UZO3TVF.js";import"./chunk-DERIAD33.js";import"./chunk-EGXLQXDH.js";import"./chunk-TSP4CJ7O.js";import{a as u}from"./chunk-CCQRCL2K.js";import"./chunk-ERPPDNZG.js";import"./chunk-INIFY56O.js";import"./chunk-IVMV7P4T.js";import"./chunk-T6LDDI5K.js";import"./chunk-HPOS2V3B.js";import"./chunk-XYJX6G2K.js";import"./chunk-J6Y2BR3C.js";import"./chunk-B745CFYO.js";import{a as v,e as t}from"./chunk-AWKYXRT4.js";import"./chunk-H3FFS4GT.js";import"./chunk-GTBW7SFI.js";import{c as h}from"./chunk-TIFZOZS6.js";import"./chunk-PTZMRZUV.js";import"./chunk-VQVTLSDS.js";import"./chunk-OKP6DFCI.js";import{o as m}from"./chunk-WIQ4WVKX.js";import{Aa as b,Ua as c}from"./chunk-CZNVQ2ZN.js";import"./chunk-GBDVRVXI.js";import"./chunk-UCBZOSRF.js";import"./chunk-NV3TFZ4C.js";import"./chunk-B226KCTA.js";import"./chunk-GJU3JL4E.js";import"./chunk-QTIYKADD.js";import"./chunk-XFLX2RRO.js";import"./chunk-BCLUZY4R.js";import"./chunk-GQEPK4C4.js";import"./chunk-BTKBODVJ.js";import"./chunk-PFT3L2T6.js";import"./chunk-LVTCV2WT.js";import"./chunk-WFPABEAU.js";import"./chunk-775LAOS6.js";import"./chunk-LDMZMUWY.js";import"./chunk-X2SBUKU4.js";import"./chunk-OXFZHPMY.js";import"./chunk-HLHJEFRF.js";import"./chunk-S37W3WO2.js";import"./chunk-6ZVJZYTQ.js";import"./chunk-DFKC7QAI.js";import{m as P}from"./chunk-56SJOU6P.js";import"./chunk-CBSQD5B4.js";import"./chunk-N7UFQNLW.js";import"./chunk-VNNHZNYI.js";import"./chunk-4P36KWOF.js";import{a as F}from"./chunk-7X4NV6OJ.js";import"./chunk-UNDMYLJW.js";import{f as $,h as w,n as f}from"./chunk-3KENBVE7.js";w();f();var o=$(F());var C=72,B=52,I=m.ul`
+  margin: 0;
+  padding: 0;
+  height: ${e=>e.fullHeight?410:360}px;
+  overflow: auto;
+`,H=m.li`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  background: ${e=>e.isSelected?"#AB9FF2":"#2A2A2A"};
+  border-radius: 6px;
+  min-height: ${B}px;
+  padding: 16px;
+  margin-bottom: 10px;
+  &:hover {
+    background: ${e=>e.isSelected?"#e2dffe":"#333333"};
+  }
+`,R=m(H)`
+  height: ${C}px;
+  padding: 12px;
+`,T=()=>{let{t:e}=P(),{handleHideModalVisibility:r}=k(),i=(0,o.useCallback)(()=>{r("swapProviders")},[r]),n=b(),p=(0,o.useCallback)(l=>{n.setSelectedProviderIndex(l),i()},[i,n]),d=n.rows.some(c),a=e(d?"swapProvidersTitle":"swapTopQuotesTitle");return{...n,hideSwapProvidersModal:i,onClick:p,isBridge:d,title:a}},V=({isBridge:e})=>o.default.createElement(o.default.Fragment,null,[...Array(5)].map((r,i)=>o.default.createElement(x,{key:`swap-provider-row-loader-${i}`,align:"center",width:"100%",height:`${e?C:B}px`,backgroundColor:"#2D2D2D",borderRadius:"8px",margin:"0 0 10px 0",padding:"10px"}))),E=o.default.memo(({rows:e,selectedProviderIndex:r,isLoadingProviders:i,title:n,isBridge:p,hideSwapProvidersModal:d,onClick:a})=>o.default.createElement(h,{onReset:d},o.default.createElement(S,{leftButton:{type:"close",onClick:d}},n),i?o.default.createElement(V,{isBridge:p}):o.default.createElement(I,{fullHeight:p},e.map((l,s)=>{let A=s===r;return c(l)?o.default.createElement(D,{key:`bridge-provider-row-${s}`,index:s,row:l,onClick:a}):o.default.createElement(_,{key:`provider-row-${s}`,index:s,row:l,onClick:a,isSelected:A})})))),W=()=>{let e=T();return o.default.createElement(E,{...e})},Y=W,_=({index:e,row:r,isSelected:i,onClick:n})=>o.default.createElement(H,{isSelected:i,onClick:()=>n(e)},o.default.createElement(t,{font:"label",children:r.name,align:"left",color:i?"bgWallet":"white"}),o.default.createElement(t,{font:"label",children:r.amount,align:"right",color:i?"bgWallet":"textSecondary",className:v({flexShrink:0})})),D=({index:e,row:r,onClick:i})=>o.default.createElement(R,{onClick:()=>i(e)},r.logoURI?o.default.createElement(u,{flex:0,margin:"0 4px 0 0"},o.default.createElement(y,{src:r.logoURI,width:48,height:48})):null,o.default.createElement(u,{flex:1},o.default.createElement(g,{justify:"space-between"},o.default.createElement(t,{children:r.name,font:"labelSemibold",color:"white",align:"left"}),o.default.createElement(t,{children:r.amount,font:"labelSemibold",color:"white",align:"right"})),o.default.createElement(g,{justify:"space-between",padding:"8px 0 0 0"},o.default.createElement(t,{children:r.time.text,font:"label",color:r.time.isFast?"textSecondary":"accentAlert"}),o.default.createElement(t,{children:r.fee,font:"label",color:"textSecondary"}))));export{W as SwapProvidersPage,Y as default};
+//# sourceMappingURL=SwapProvidersPage-VZ3OFGJA.js.map

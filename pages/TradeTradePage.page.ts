@@ -6,7 +6,7 @@ export class TradeTradePage{
 
     constructor(page: Page){
         this.page=page;
-        this.headerConnectWallet=page.locator('xpath=//button/span/div[text()="Connect Wallet"]');
+        this.headerConnectWallet=this.page.getByRole('button', { name: 'Connect Wallet' }).first();
         this.rightSideConnectWallet=this.page.getByRole('button', { name: 'Connect Wallet' }).nth(1);
     }
 
