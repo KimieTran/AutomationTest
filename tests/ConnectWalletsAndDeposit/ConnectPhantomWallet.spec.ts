@@ -5,12 +5,15 @@ import { TradeTradePage } from '../../pages/TradeTradePage.page';
 import { ConnectWalletPage } from '../../pages/ConnectWalletPage';
 import { PhantomPage } from '../../pages/PhantomPage';
 import { DepositPage } from '../../pages/DepositPage';
+import { WithdrawPage } from '../../pages/WithdrawPage';
 
 let page: Page
 let browserContext: BrowserContext
 const srpArr = ["doll", "injury", "material", "wise", "matrix", "pet", "debate", "asset", "forest", "online", "toss", "holiday"]
 const password = 'Abc123456789'
 const extensionName = "phantom"
+const leapSwthAddress = 'tswth1mw6zu5y7dxdhcrej4jqct95xxf7j5lgh6dyhfn'
+
 test.beforeAll('Add extension: Phantom', async () => {
   test.setTimeout(90_000)
   browserContext = await createBrowserContext(extensionName)
@@ -46,8 +49,8 @@ test.describe.serial('Connect Phantom wallet & Verify deposit', () => {
     await homePage.goToHomePage()
     page.waitForLoadState()
     expect(homePage.spotHistory).toBeTruthy();
-    await homePage.carbonTestnet.click();
-    await homePage.mantle.click()
+    //await homePage.carbonTestnet.click();
+    //await homePage.mantle.click()
     await page.waitForLoadState()
 
     await page.waitForTimeout(10_000)
@@ -98,5 +101,32 @@ test.describe.serial('Connect Phantom wallet & Verify deposit', () => {
     await depositPage.amountTextbox.fill('0')
     await depositPage.phantomDepositBtn.click()
     await expect(depositPage.errorAmountMsg).toBeVisible()
+  })
+
+  test('Verify that the withdraw can be executed with other wallets address', async () => {
+    const depositPage = new DepositPage(page)
+    await depositPage.depositBtn.click()
+    await depositPage.myBrowerWallet.click()
+
+    const homePage = new HomePage(page)
+    await homePage.withdrawnTab.click()
+
+    const withdrawPage = new WithdrawPage(page)
+    await withdrawPage.carbonGroupUSD.click()
+    await withdrawPage.swthTokenOption.click()
+    await withdrawPage.recipientAddrTextbox.fill(leapSwthAddress)
+    await withdrawPage.amountTextbox.fill('1')
+
+    const [popup] = await Promise.all([
+      browserContext.waitForEvent('page'),
+      await withdrawPage.withdrawBtn.click()
+    ]);
+    await popup.waitForLoadState()
+
+    const confirmPage = new PhantomPage(popup)
+    await confirmPage.connectBtn.waitFor({ state: 'visible' })
+    await confirmPage.connectBtn.click({ delay: 1000 })
+
+    await expect(withdrawPage.transactionSuccess).toBeVisible()
   })
 })
