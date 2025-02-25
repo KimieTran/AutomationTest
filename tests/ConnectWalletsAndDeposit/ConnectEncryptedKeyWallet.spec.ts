@@ -5,7 +5,6 @@ import { ConnectWalletPage } from '../../pages/ConnectWalletPage';
 import { EncryptedKeyPage } from '../../pages/EncryptedKeyPage';
 import { DepositPage } from '../../pages/DepositPage';
 import { WithdrawPage } from '../../pages/WithdrawPage';
-import { LeapPage } from '../../pages/LeapPage';
 
 let page: Page
 let browserContext: BrowserContext
