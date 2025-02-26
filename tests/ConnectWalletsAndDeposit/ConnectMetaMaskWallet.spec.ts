@@ -5,12 +5,15 @@ import { TradeTradePage } from '../../pages/TradeTradePage.page';
 import { ConnectWalletPage } from '../../pages/ConnectWalletPage';
 import { MetaMaskPage } from '../../pages/MetaMaskPage';
 import { DepositPage } from '../../pages/DepositPage';
+import { WithdrawPage } from '../../pages/WithdrawPage';
 
 let page: Page
 let browserContext: BrowserContext
 const srpArr = ['deal', 'payment', 'cigar', 'breeze', 'vast', 'curve', 'west', 'six', 'doll', 'convince', 'page', 'wing']
 const passworld = 'Abc12345789'
 const extensionName = "metamask"
+const phantomSwthAddress = 'tswth1r5kh40kknhw7e02qyzyz50zsfj8xyvfsq9lvxp'
+
 test.beforeAll('Add extension: MetaMask', async () => {
   test.setTimeout(90_000)
   browserContext = await createBrowserContext(extensionName)
@@ -53,11 +56,11 @@ test.describe.serial('Connect MetaMask wallet & Verify deposit', () => {
     await homePage.goToHomePage()
     page.waitForLoadState()
     expect(homePage.spotHistory).toBeTruthy();
-    await homePage.carbonTestnet.click();
-    await homePage.mantle.click()
+    //await homePage.carbonTestnet.click();
+    //await homePage.mantle.click()
     await page.waitForLoadState()
 
-    await page.waitForTimeout(15_000)
+    await page.waitForTimeout(10_000)
     const tradePage = new TradeTradePage(page);
     await tradePage.headerConnectWallet.click();
 
@@ -109,5 +112,32 @@ test.describe.serial('Connect MetaMask wallet & Verify deposit', () => {
       await depositPage.amountTextbox.fill('0')
       await depositPage.metaMaskDepositBtn.click()
       await expect(depositPage.errorAmountMsg).toBeVisible()
+    })
+
+    test('Verify that the withdraw can be executed with other wallets address', async () => {
+        const depositPage = new DepositPage(page)
+        await depositPage.depositBtn.click()
+        await depositPage.myBrowerWallet.click()
+    
+        const homePage = new HomePage(page)
+        await homePage.withdrawnTab.click()
+    
+        const withdrawPage = new WithdrawPage(page)
+        await withdrawPage.carbonGroupUSD.click()
+        await withdrawPage.swthTokenOption.click()
+        await withdrawPage.recipientAddrTextbox.fill(phantomSwthAddress)
+        await withdrawPage.amountTextbox.fill('1')
+    
+        const [popup] = await Promise.all([
+          browserContext.waitForEvent('page'),
+          await withdrawPage.withdrawBtn.click()
+        ]);
+        await popup.waitForLoadState()
+    
+        const confirmPage = new MetaMaskPage(popup)
+        await confirmPage.confirmFooterBtn.waitFor({ state: 'visible' })
+        await confirmPage.confirmFooterBtn.click({ delay: 1000 })
+    
+        await expect(withdrawPage.transactionSuccess).toBeVisible()
     })
 })
