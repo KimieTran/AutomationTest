@@ -22,6 +22,7 @@ export class HomePage{
     readonly copyCarbonAddressBtn: Locator
     readonly addressDropBtn: Locator
     readonly firstCopyClipBoardBtn: Locator
+    readonly withdrawnTab: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -47,6 +48,7 @@ export class HomePage{
         this.copyCarbonAddressBtn=this.page.locator('div[title="Copy to Clipboard"]').nth(2)
         this.addressDropBtn = this.page.locator('svg:nth-child(3)').first()
         this.firstCopyClipBoardBtn=this.page.locator('div[title="Copy to Clipboard"]').first()
+        this.withdrawnTab=this.page.getByRole('button', { name: 'Withdraw', exact: true })
 
     }
 
