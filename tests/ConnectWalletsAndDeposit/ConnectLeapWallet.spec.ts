@@ -54,7 +54,7 @@ test.beforeAll('Add extension: Leap', async () => {
 
 })
 
-test.describe.serial('Connect Phantom wallet & Verify withdraw', () => {
+test.describe.serial('Leap wallet ', () => {
   test('Connect Leap wallet', async () => {
     test.setTimeout(150_000)
     const homePage = new HomePage(page)

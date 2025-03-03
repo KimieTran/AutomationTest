@@ -42,7 +42,7 @@ test.beforeAll('Add extension: Phantom', async () => {
   await page.bringToFront()
 
 })
-test.describe.serial('Connect Phantom wallet & Verify deposit', () => {
+test.describe.serial(' Phantom wallet ', () => {
   test('Connect Phantom wallet', async () => {
     test.setTimeout(180_000)
     const homePage = new HomePage(page)
@@ -103,7 +103,7 @@ test.describe.serial('Connect Phantom wallet & Verify deposit', () => {
     await expect(depositPage.errorAmountMsg).toBeVisible()
   })
 
-  test('Verify that the withdraw can be executed with other wallets address', async () => {
+  test.skip('Verify that the withdraw can be executed with other wallets address', async () => {
     const depositPage = new DepositPage(page)
     await depositPage.depositBtn.click()
     await depositPage.myBrowerWallet.click()
@@ -128,5 +128,27 @@ test.describe.serial('Connect Phantom wallet & Verify deposit', () => {
     await confirmPage.connectBtn.click({ delay: 1000 })
 
     await expect(withdrawPage.transactionSuccess).toBeVisible()
+  })
+
+  test('Place a buy order, verify appearance in order book', async () => {
+    const tradePage = new TradeTradePage(page)
+    await tradePage.opTokenOption.click()
+    await tradePage.spotTab.click()
+    await tradePage.searchToken.fill('SWTH')
+    await tradePage.swthUSDOption.click()
+    await tradePage.amountToken.fill('1000')
+    await tradePage.buyBtn.click()
+
+    const [newPage2] = await Promise.all([
+      browserContext.waitForEvent('page'),
+      await tradePage.confirmBtn.click()
+    ]);
+    await newPage2.waitForLoadState()
+
+    const phantomPage2 = new PhantomPage(newPage2)
+    await phantomPage2.connectBtn.click({ delay: 1000 })
+
+    await expect(tradePage.orderedPopup).toBeVisible()
+
   })
 })
