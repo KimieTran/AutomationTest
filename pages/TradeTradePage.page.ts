@@ -11,6 +11,9 @@ export class TradeTradePage{
    readonly buyBtn: Locator
    readonly confirmBtn: Locator
    readonly orderedPopup: Locator
+   readonly orderedCancelledPopup: Locator
+   readonly cancelBtn: Locator
+   readonly cancelAllBtn: Locator
 
     constructor(page: Page){
         this.page=page;
@@ -24,9 +27,43 @@ export class TradeTradePage{
         this.buyBtn = this.page.getByRole('button', { name: 'Buy SWTH', exact: true })
         this.confirmBtn = this.page.getByRole('button', { name: 'Confirm' })
         this.orderedPopup = this.page.getByText('Order Placed')
+        this.orderedCancelledPopup = this.page.getByText('Order Cancelled')
+        this.cancelBtn = this.page.getByRole('button', { name: 'Cancel', exact: true })
+        this.cancelAllBtn = this.page.getByRole('columnheader', { name: 'Cancel All' })
     }
 
     async goToTradePage(){
         await this.page.goto('https://beta-app.dem.exchange/trade');
     }
+
+    async verifyTableData(expectedData: Array<{ [key: string]: string }>) {
+        const table = this.page.locator('//table[thead//th[contains(text(), "Date")]]');
+        await expect(table).toBeVisible();
+      
+        const headers = await table.locator('thead tr th').allInnerTexts();
+        console.log('Column headers:', headers);
+      
+        const columnIndexes: { [key: string]: number } = {};
+        headers.forEach((header, index) => {
+          columnIndexes[header.trim()] = index + 1;
+        });
+        console.log('Column Index:', columnIndexes)
+      
+        for (let rowIndex = 0; rowIndex < expectedData.length; rowIndex++) {
+          const row = table.locator(`tbody tr:nth-child(${rowIndex + 1})`);
+      
+          for (const [columnName, expectedValue] of Object.entries(expectedData[rowIndex])) {
+            if (columnIndexes[columnName] !== undefined) {
+              const columnIndex = columnIndexes[columnName];
+              const cellLocator = row.locator(`td:nth-child(${columnIndex})`);
+      
+              await expect(cellLocator).toHaveText(expectedValue);
+              console.log(`Row ${rowIndex + 1}, column "${columnName}" verified: "${expectedValue}"`);
+            } else {
+              console.warn(`Column "${columnName}" not found!`);
+            }
+          }
+        }
+      }
+      
 }
