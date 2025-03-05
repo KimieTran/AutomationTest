@@ -14,6 +14,8 @@ export class TradeTradePage{
    readonly orderedCancelledPopup: Locator
    readonly cancelBtn: Locator
    readonly cancelAllBtn: Locator
+   readonly switchingBtn: Locator
+   readonly sellBtn: Locator
 
     constructor(page: Page){
         this.page=page;
@@ -30,6 +32,8 @@ export class TradeTradePage{
         this.orderedCancelledPopup = this.page.getByText('Order Cancelled')
         this.cancelBtn = this.page.getByRole('button', { name: 'Cancel', exact: true })
         this.cancelAllBtn = this.page.getByRole('columnheader', { name: 'Cancel All' })
+        this.switchingBtn = this.page.locator("button:has(span:has-text('Buy SWTH'))").locator("xpath=following-sibling::button")
+        this.sellBtn = this.page.getByRole('button', { name: 'Sell SWTH', exact: true })
     }
 
     async goToTradePage(){

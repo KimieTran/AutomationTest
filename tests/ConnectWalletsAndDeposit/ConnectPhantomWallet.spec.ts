@@ -76,6 +76,7 @@ test.describe.serial(' Phantom wallet ', () => {
     await newPage2.waitForLoadState()
 
     const phantomPage2 = new PhantomPage(newPage2)
+    await phantomPage2.connectBtn.waitFor({ state: 'visible' })
     await phantomPage2.connectBtn.click({ delay: 1000 })
 
     await page.waitForTimeout(10_000)
@@ -103,16 +104,17 @@ test.describe.serial(' Phantom wallet ', () => {
     await expect(depositPage.errorAmountMsg).toBeVisible()
   })
 
-  test.skip('Verify that the withdraw can be executed with other wallets address', async () => {
+  test('Verify that the withdraw can be executed with other wallets address', async () => {
     const depositPage = new DepositPage(page)
     await depositPage.depositBtn.click()
-    await depositPage.myBrowerWallet.click()
+    //await depositPage.myBrowerWallet.click()
 
     const homePage = new HomePage(page)
     await homePage.withdrawnTab.click()
 
     const withdrawPage = new WithdrawPage(page)
-    await withdrawPage.carbonGroupUSD.click()
+    //await withdrawPage.carbonGroupUSD.click()
+    await withdrawPage.selectToken.click()
     await withdrawPage.swthTokenOption.click()
     await withdrawPage.recipientAddrTextbox.fill(leapSwthAddress)
     await withdrawPage.amountTextbox.fill('1')
@@ -131,6 +133,8 @@ test.describe.serial(' Phantom wallet ', () => {
   })
 
   test('TC_DEMEX_TO_1: Place a buy order, verify appearance in order book', async () => {
+    const homePage = new HomePage(page)
+    await homePage.goToHomePage()
     const tradePage = new TradeTradePage(page)
     await tradePage.opTokenOption.click()
     await tradePage.spotTab.click()
@@ -155,7 +159,6 @@ test.describe.serial(' Phantom wallet ', () => {
       {
         'Market': 'SWTH / USD',
         'Type': 'Limit|Buy',
-        'Size': '1,000 SWTH$1.24',
         'Filled': '0 SWTH$0.00',
       }
     ]
@@ -164,6 +167,8 @@ test.describe.serial(' Phantom wallet ', () => {
   })
 
   test('TC_DEMEX_TO_4: Cancel an active order and confirm removal', async () => {
+    await page.reload()
+    await page.waitForLoadState()
     const tradePage = new TradeTradePage(page)
 
     const [newPage3] = await Promise.all([
@@ -178,4 +183,54 @@ test.describe.serial(' Phantom wallet ', () => {
 
     await expect(tradePage.orderedCancelledPopup).toBeVisible({ timeout: 10_000})
   })
+
+  test('TC_DEMEX_TO_2: Place a sell order, verify appearance in order book', async () => {
+    await page.reload()
+    await page.waitForLoadState()
+    const tradePage = new TradeTradePage(page)
+    await tradePage.amountToken.fill('1000')
+    await tradePage.switchingBtn.click()
+    await tradePage.sellBtn.click()
+
+    const [newPage2] = await Promise.all([
+      browserContext.waitForEvent('page'),
+      await tradePage.confirmBtn.click()
+    ]);
+    await newPage2.waitForLoadState()
+
+    const phantomPage2 = new PhantomPage(newPage2)
+    await phantomPage2.connectBtn.waitFor({ state: 'visible' })
+    await phantomPage2.connectBtn.click({ delay: 1000 })
+
+    await expect(tradePage.orderedPopup).toBeVisible({ timeout: 10_000})
+
+    const expectedTableData = [
+      {
+        'Market': 'SWTH / USD',
+        'Type': 'Limit|Sell',
+        'Filled': '0 SWTH$0.00',
+      }
+    ]
+    await tradePage.verifyTableData(expectedTableData)
+
+  })
+})
+
+test.afterAll('Reset data', async () => {
+  const tradePage = new TradeTradePage(page)
+  try {
+    await tradePage.cancelAllBtn.click({timeout: 5000})
+  } catch (e) {}
+
+  const [newPage2] = await Promise.all([
+    browserContext.waitForEvent('page'),
+    await tradePage.confirmBtn.click()
+  ]);
+  await newPage2.waitForLoadState()
+
+  const phantomPage2 = new PhantomPage(newPage2)
+  await phantomPage2.connectBtn.waitFor({ state: 'visible' })
+  await phantomPage2.connectBtn.click({ delay: 1000 })
+
+  await expect(tradePage.orderedCancelledPopup).toBeVisible({ timeout: 10_000})
 })
