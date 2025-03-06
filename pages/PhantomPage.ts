@@ -19,7 +19,6 @@ export class PhantomPage{
     readonly amountTextbox: Locator
     readonly depositBtnn: Locator
     readonly errorAmountMsg: Locator
-    
 
     constructor (page:Page){
         this.page=page;
