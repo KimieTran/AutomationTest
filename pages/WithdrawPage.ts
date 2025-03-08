@@ -10,6 +10,8 @@ export class WithdrawPage{
     readonly memoTextbox: Locator
     readonly withdrawBtn: Locator
     readonly transactionSuccess: Locator
+    readonly invalidAddressErrorMsg: Locator
+    readonly invalidAmountErrorMsg: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -21,6 +23,8 @@ export class WithdrawPage{
         this.memoTextbox = this.page.getByRole('textbox', { name: 'Enter message' })
         this.transactionSuccess = this.page.locator('div').filter({ hasText: /^Transaction Success$/ })
         this.withdrawBtn = this.page.getByRole('button', { name: 'Withdraw' }).nth(1)
+        this.invalidAddressErrorMsg = this.page.getByText('Invalid address. Only enter a')
+        this.invalidAmountErrorMsg = this.page.getByText('Invalid amount. Please enter')
     }
 
 

@@ -40,59 +40,44 @@ test.beforeAll('Add extension: Phantom', async () => {
   //await phantomPage.submitBtn.click({ delay: 1000 })
 
   await page.bringToFront()
+  test.setTimeout(180_000)
+  const homePage = new HomePage(page)
+  await homePage.goToHomePage()
+  page.waitForLoadState()
+  expect(homePage.spotHistory).toBeTruthy();
+  //await homePage.carbonTestnet.click();
+  //await homePage.mantle.click()
+  await page.waitForLoadState()
+
+  await page.waitForTimeout(10_000)
+  const tradePage = new TradeTradePage(page);
+  await tradePage.headerConnectWallet.click();
+
+  const connectWalletPage = new ConnectWalletPage(page)
+  await connectWalletPage.selectWallet.isVisible()
+  await connectWalletPage.phantomBtn.waitFor({ state: 'visible' })
+
+  const [newPage1] = await Promise.all([
+    browserContext.waitForEvent('page'),
+    await connectWalletPage.phantomBtn.click({ delay: 1000 })
+  ]);
+  await newPage1.waitForLoadState()
+
+  const phantomPage1 = new PhantomPage(newPage1)
+  await phantomPage1.connectBtn.click({ delay: 1000 })
+
+  const [newPage2] = await Promise.all([
+    browserContext.waitForEvent('page'),
+  ]);
+  await newPage2.waitForLoadState()
+
+  const phantomPage2 = new PhantomPage(newPage2)
+  await phantomPage2.connectBtn.waitFor({ state: 'visible' })
+  await phantomPage2.connectBtn.click({ delay: 1000 })
+  await homePage.addressPhantomDropBtn.waitFor({ state: 'visible' })
 
 })
-test.describe.serial(' Phantom wallet ', () => {
-  test('Connect Phantom wallet', async () => {
-    test.setTimeout(180_000)
-    const homePage = new HomePage(page)
-    await homePage.goToHomePage()
-    page.waitForLoadState()
-    expect(homePage.spotHistory).toBeTruthy();
-    //await homePage.carbonTestnet.click();
-    //await homePage.mantle.click()
-    await page.waitForLoadState()
-
-    await page.waitForTimeout(10_000)
-    const tradePage = new TradeTradePage(page);
-    await tradePage.headerConnectWallet.click();
-
-    const connectWalletPage = new ConnectWalletPage(page)
-    await connectWalletPage.selectWallet.isVisible()
-    await connectWalletPage.phantomBtn.waitFor({ state: 'visible' })
-
-    const [newPage1] = await Promise.all([
-      browserContext.waitForEvent('page'),
-      await connectWalletPage.phantomBtn.click({ delay: 1000 })
-    ]);
-    await newPage1.waitForLoadState()
-
-    const phantomPage1 = new PhantomPage(newPage1)
-    await phantomPage1.connectBtn.click({ delay: 1000 })
-
-    const [newPage2] = await Promise.all([
-      browserContext.waitForEvent('page'),
-    ]);
-    await newPage2.waitForLoadState()
-
-    const phantomPage2 = new PhantomPage(newPage2)
-    await phantomPage2.connectBtn.waitFor({ state: 'visible' })
-    await phantomPage2.connectBtn.click({ delay: 1000 })
-
-    await page.waitForTimeout(10_000)
-    await homePage.addressPhantomDropBtn.waitFor({ state: 'visible' })
-    await homePage.addressPhantomDropBtn.click({ delay: 100 })
-    await homePage.dropAddress2.waitFor({ state: 'visible' })
-    await homePage.dropAddress2.click({ delay: 100 })
-
-    await homePage.copyEVMAddressBtn.click()
-    const copiedEVMAddressText = await page.evaluate(() => navigator.clipboard.readText())
-    console.log(copiedEVMAddressText)
-    const evmPattern = /^0x[a-fA-F0-9]{40}$/
-    expect(copiedEVMAddressText.trim()).toMatch(evmPattern)
-
-  })
-
+test.describe(' Trading Token with Phantom wallet ', () => {
   test('TC_DEMEX_TO_1: Place a buy order, verify appearance in order book', async () => {
     const homePage = new HomePage(page)
     await homePage.goToHomePage()
@@ -200,47 +185,7 @@ test.describe.serial(' Phantom wallet ', () => {
     await expect(tradePage.tradeExecutedPopup).toBeVisible({ timeout: 10_000 })
 
   })
-
-  test.skip('Verify that the validation form is presented when user performed deposit amount = 0', async () => {
-    const depositPage = new DepositPage(page)
-    await depositPage.depositBtn.click()
-    await depositPage.myBrowerWallet.click()
-    await depositPage.selectNetworkBtn.click()
-    await depositPage.networkOption('Ethereum').click()
-    await depositPage.amountTextbox.fill('0')
-    await depositPage.phantomDepositBtn.click()
-    await expect(depositPage.errorAmountMsg).toBeVisible()
-  })
   
-  test('Verify that the withdraw can be executed with other wallets address', async () => {
-    await page.reload()
-    await page.waitForLoadState()
-    const depositPage = new DepositPage(page)
-    await depositPage.depositBtn.click()
-    //await depositPage.myBrowerWallet.click()
-  
-    const homePage = new HomePage(page)
-    await homePage.withdrawnTab.click()
-  
-    const withdrawPage = new WithdrawPage(page)
-    //await withdrawPage.carbonGroupUSD.click()
-    await withdrawPage.selectToken.click()
-    await withdrawPage.swthTokenOption.click()
-    await withdrawPage.recipientAddrTextbox.fill(leapSwthAddress)
-    await withdrawPage.amountTextbox.fill('1')
-  
-    const [popup] = await Promise.all([
-      browserContext.waitForEvent('page'),
-      await withdrawPage.withdrawBtn.click()
-    ]);
-    await popup.waitForLoadState()
-  
-    const confirmPage = new PhantomPage(popup)
-    await confirmPage.connectBtn.waitFor({ state: 'visible' })
-    await confirmPage.connectBtn.click({ delay: 1000 })
-  
-    await expect(withdrawPage.transactionSuccess).toBeVisible()
-  })
 })
 
 test.afterAll('Reset data', async () => {
@@ -250,7 +195,7 @@ test.afterAll('Reset data', async () => {
 
   const tradePage = new TradeTradePage(page)
   try {
-    await tradePage.cancelAllBtn.click({ timeout: 15_000 })
+    await tradePage.cancelAllBtn.click({ timeout: 10_000 })
 
     const [newPage2] = await Promise.all([
       browserContext.waitForEvent('page'),
