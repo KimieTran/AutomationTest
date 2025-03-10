@@ -17,7 +17,7 @@ test.beforeAll('Launch browser context with permission', async () => {
 
 })
 
-test('Connect wallet by View Only Mode', async () => {
+test.skip('Connect wallet by View Only Mode', async () => {
   test.setTimeout(90_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()

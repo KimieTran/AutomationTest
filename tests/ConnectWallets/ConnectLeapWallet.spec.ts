@@ -54,7 +54,7 @@ test.beforeAll('Add extension: Leap', async () => {
 
 })
 
-test.describe.serial('Connect Phantom wallet & Verify withdraw', () => {
+test.describe.serial('Leap wallet ', () => {
   test('Connect Leap wallet', async () => {
     test.setTimeout(150_000)
     const homePage = new HomePage(page)
@@ -113,13 +113,13 @@ test.describe.serial('Connect Phantom wallet & Verify withdraw', () => {
   test('Verify that the withdraw can be executed with other wallets address', async () => {
     const depositPage = new DepositPage(page)
     await depositPage.depositBtn.click()
-    await depositPage.myBrowerWallet.click()
+    //await depositPage.myBrowerWallet.click()
 
     const homePage = new HomePage(page)
     await homePage.withdrawnTab.click()
 
     const withdrawPage = new WithdrawPage(page)
-    await withdrawPage.carbonGroupUSD.click()
+    await withdrawPage.selectToken.click()
     await withdrawPage.swthTokenOption.click()
     await withdrawPage.recipientAddrTextbox.fill(phantomSwthAddress)
     await withdrawPage.amountTextbox.fill('1')

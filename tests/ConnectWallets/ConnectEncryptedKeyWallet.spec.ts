@@ -78,13 +78,13 @@ test.describe.serial('Connect Leap wallet  by Encrypted Key & Verify deposit', (
   test('Verify that the withdraw can be executed with other wallets address', async () => {
     const depositPage = new DepositPage(page)
     await depositPage.depositBtn.click()
-    await depositPage.myBrowerWallet.click()
+    //await depositPage.myBrowerWallet.click()
     
     const homePage = new HomePage(page)
     await homePage.withdrawnTab.click()
 
     const withdrawPage = new WithdrawPage(page)
-    await withdrawPage.carbonGroupUSD.click()
+    await withdrawPage.selectToken.click()
     await withdrawPage.swthTokenOption.click()
     await withdrawPage.recipientAddrTextbox.fill(phantomSwthAddress)
     await withdrawPage.amountTextbox.fill('1')
