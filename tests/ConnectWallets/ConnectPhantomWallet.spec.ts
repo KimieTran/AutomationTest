@@ -5,7 +5,6 @@ import { TradeTradePage } from '../../pages/TradeTradePage.page';
 import { ConnectWalletPage } from '../../pages/ConnectWalletPage';
 import { PhantomPage } from '../../pages/PhantomPage';
 import { DepositPage } from '../../pages/DepositPage';
-import { WithdrawPage } from '../../pages/WithdrawPage';
 
 let page: Page
 let browserContext: BrowserContext

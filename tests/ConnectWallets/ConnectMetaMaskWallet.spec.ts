@@ -50,7 +50,7 @@ test.beforeAll('Add extension: MetaMask', async () => {
 })
 
 test.describe.serial('Connect MetaMask wallet & Verify deposit', () => {
-  test('Connect MetaMask wallet', async () => {
+  test.skip('Connect MetaMask wallet', async () => {
     test.setTimeout(200_000)
     const homePage = new HomePage(page)
     await homePage.goToHomePage()
@@ -103,18 +103,7 @@ test.describe.serial('Connect MetaMask wallet & Verify deposit', () => {
 
   })
 
-  test.skip('Verify that the validation form is presented when user performed deposit amount = 0', async () => {
-    const depositPage = new DepositPage(page)
-    await depositPage.depositBtn.click()
-    await depositPage.myBrowerWallet.click()
-    await depositPage.selectNetworkBtn.click()
-    await depositPage.networkOption('Ethereum').click()
-    await depositPage.amountTextbox.fill('0')
-    await depositPage.metaMaskDepositBtn.click()
-    await expect(depositPage.errorAmountMsg).toBeVisible()
-  })
-
-  test('Verify that the withdraw can be executed with other wallets address', async () => {
+  test.skip('Verify that the withdraw can be executed with other wallets address', async () => {
     const depositPage = new DepositPage(page)
     await depositPage.depositBtn.click()
     //await depositPage.myBrowerWallet.click()

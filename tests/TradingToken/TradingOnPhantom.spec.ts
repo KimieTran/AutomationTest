@@ -4,15 +4,12 @@ import { HomePage } from '../../pages/HomePage.page';
 import { TradeTradePage } from '../../pages/TradeTradePage.page';
 import { ConnectWalletPage } from '../../pages/ConnectWalletPage';
 import { PhantomPage } from '../../pages/PhantomPage';
-import { DepositPage } from '../../pages/DepositPage';
-import { WithdrawPage } from '../../pages/WithdrawPage';
 
 let page: Page
 let browserContext: BrowserContext
 const srpArr = ["doll", "injury", "material", "wise", "matrix", "pet", "debate", "asset", "forest", "online", "toss", "holiday"]
 const password = 'Abc123456789'
 const extensionName = "phantom"
-const leapSwthAddress = 'tswth1mw6zu5y7dxdhcrej4jqct95xxf7j5lgh6dyhfn'
 
 test.beforeAll('Add extension: Phantom', async () => {
   test.setTimeout(90_000)

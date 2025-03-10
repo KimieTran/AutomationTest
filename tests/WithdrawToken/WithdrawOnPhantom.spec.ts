@@ -96,7 +96,7 @@ test.describe(' Withdraw Token with Phantom wallet ', () => {
 
     })
 
-    test('Verify that the withdraw can be executed with other wallets address', async () => {
+    test('TC_WTD_MW_001: Verify that the withdraw can be executed with other wallets address', async () => {
         await page.reload()
         await page.waitForLoadState()
         const depositPage = new DepositPage(page)

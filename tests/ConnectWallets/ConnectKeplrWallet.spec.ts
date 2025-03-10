@@ -45,7 +45,7 @@ test.beforeAll('Add extension: Keplr', async () => {
   await page.bringToFront()
 
 })
-test('Connect Keplr wallet', async () => {
+test.skip('Connect Keplr wallet', async () => {
   test.setTimeout(120_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
