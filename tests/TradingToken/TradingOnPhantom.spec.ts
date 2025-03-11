@@ -12,7 +12,7 @@ const password = 'Abc123456789'
 const extensionName = "phantom"
 
 test.beforeAll('Add extension: Phantom', async () => {
-  test.setTimeout(90_000)
+  test.setTimeout(120_000)
   browserContext = await createBrowserContext(extensionName)
   page = await browserContext.newPage()
 
@@ -37,7 +37,6 @@ test.beforeAll('Add extension: Phantom', async () => {
   //await phantomPage.submitBtn.click({ delay: 1000 })
 
   await page.bringToFront()
-  test.setTimeout(180_000)
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
   page.waitForLoadState()
@@ -61,10 +60,9 @@ test.beforeAll('Add extension: Phantom', async () => {
   await newPage1.waitForLoadState()
 
   const phantomPage1 = new PhantomPage(newPage1)
-  await phantomPage1.connectBtn.click({ delay: 1000 })
-
   const [newPage2] = await Promise.all([
     browserContext.waitForEvent('page'),
+    await phantomPage1.connectBtn.click({ delay: 1000 })
   ]);
   await newPage2.waitForLoadState()
 
