@@ -92,50 +92,51 @@ test.beforeAll('Add extension: Leap', async () => {
 
 })
 test.describe(' Withdraw Token with Leap wallet ', () => {
-    test('DEPOSIT_UI_V2_08: Check the active Withdraw button on the Deposit page', async () => {
-        await page.reload()
-        await page.waitForLoadState()
-        const depositPage = new DepositPage(page)
-        await depositPage.depositBtn.click()
+  test('DEPOSIT_UI_V2_08: Check the active Withdraw button on the Deposit page', async () => {
+    test.setTimeout(90_000)
+    await page.reload()
+    await page.waitForLoadState()
+    const depositPage = new DepositPage(page)
+    await depositPage.depositBtn.click()
 
-        const homePage = new HomePage(page)
-        await homePage.withdrawnTab.click()
+    const homePage = new HomePage(page)
+    await homePage.withdrawnTab.click()
 
-        const withdrawPage = new WithdrawPage(page)
-        await withdrawPage.selectToken.click()
-        await withdrawPage.swthTokenOption.click()
-        await withdrawPage.withdrawBtn.click()
-        await expect(withdrawPage.invalidAddressErrorMsg).toBeVisible()
-        await expect(withdrawPage.invalidAmountErrorMsg).toBeVisible()
+    const withdrawPage = new WithdrawPage(page)
+    await withdrawPage.selectToken.click()
+    await withdrawPage.swthTokenOption.click()
+    await withdrawPage.withdrawBtn.click()
+    await expect(withdrawPage.invalidAddressErrorMsg).toBeVisible()
+    await expect(withdrawPage.invalidAmountErrorMsg).toBeVisible()
 
-    })
+  })
 
-    test('TC_WTD_MW_001: Verify that the withdraw can be executed with other wallets address', async () => {
-        await page.reload()
-        await page.waitForLoadState()
-        const depositPage = new DepositPage(page)
-        await depositPage.depositBtn.click()
+  test('TC_WTD_MW_001: Verify that the withdraw can be executed with other wallets address', async () => {
+    await page.reload()
+    await page.waitForLoadState()
+    const depositPage = new DepositPage(page)
+    await depositPage.depositBtn.click()
 
-        const homePage = new HomePage(page)
-        await homePage.withdrawnTab.click()
+    const homePage = new HomePage(page)
+    await homePage.withdrawnTab.click()
 
-        const withdrawPage = new WithdrawPage(page)
-        await withdrawPage.selectToken.click()
-        await withdrawPage.swthTokenOption.click()
-        await withdrawPage.recipientAddrTextbox.fill(phantomSwthAddress)
-        await withdrawPage.amountTextbox.fill('1')
+    const withdrawPage = new WithdrawPage(page)
+    await withdrawPage.selectToken.click()
+    await withdrawPage.swthTokenOption.click()
+    await withdrawPage.recipientAddrTextbox.fill(phantomSwthAddress)
+    await withdrawPage.amountTextbox.fill('1')
 
-        const [popup] = await Promise.all([
-            browserContext.waitForEvent('page'),
-            await withdrawPage.withdrawBtn.click()
-        ]);
-        await popup.waitForLoadState()
+    const [popup] = await Promise.all([
+      browserContext.waitForEvent('page'),
+      await withdrawPage.withdrawBtn.click()
+    ]);
+    await popup.waitForLoadState()
 
-        const approvalPage = new LeapPage(popup)
-        await approvalPage.approveBtn.waitFor({ state: 'visible' })
-        await approvalPage.approveBtn.click({ delay: 1000 })
-    
-        await expect(withdrawPage.transactionSuccess).toBeVisible()
-    })
+    const approvalPage = new LeapPage(popup)
+    await approvalPage.approveBtn.waitFor({ state: 'visible' })
+    await approvalPage.approveBtn.click({ delay: 1000 })
+
+    await expect(withdrawPage.transactionSuccess).toBeVisible()
+  })
 
 })

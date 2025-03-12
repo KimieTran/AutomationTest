@@ -41,22 +41,27 @@ test.beforeAll('Launch browser context with permission', async () => {
   await encryptedKeyPage.connectBtn.waitFor({ state: 'visible' })
   await encryptedKeyPage.connectBtn.click({ delay: 2000 })
   await encryptedKeyPage.connectBtn.waitFor({ state: 'detached' })
-  
   await homePage.addressDropBtn.waitFor({ state: 'visible' })
+
+  await tradePage.opTokenOption.click()
+  await tradePage.spotTab.click()
+  await tradePage.searchToken.fill('SWTH / USD')
+  await tradePage.swthUSDOption.click()
+
+  try {
+    await tradePage.cancelAllBtn.click({ timeout: 10_000 })
+    await tradePage.confirmBtn.click()
+    await expect(tradePage.orderedCancelledPopup).toBeVisible({ timeout: 10_000 })
+  } catch (e) { }
 
 })
 
-test.describe('Trading Token by Encrypted Key', () => {
+test.describe('Trading on Leap by Encrypted Key', () => {
   test('TC_DEMEX_TO_1: Place a buy order, verify appearance in order book', async () => {
-    const homePage = new HomePage(page)
-    await homePage.goToHomePage()
+    await page.reload()
     await page.waitForLoadState()
 
     const tradePage = new TradeTradePage(page)
-    await tradePage.opTokenOption.click()
-    await tradePage.spotTab.click()
-    await tradePage.searchToken.fill('SWTH / USD')
-    await tradePage.swthUSDOption.click()
     await tradePage.amountToken.fill('1000')
     await tradePage.buyBtn.click()
     await tradePage.confirmBtn.click()
@@ -124,8 +129,7 @@ test.describe('Trading Token by Encrypted Key', () => {
 })
 
 test.afterAll('Reset data', async () => {
-  const homePage = new HomePage(page)
-  await homePage.goToHomePage()
+  await page.reload()
   await page.waitForLoadState()
 
   const tradePage = new TradeTradePage(page)

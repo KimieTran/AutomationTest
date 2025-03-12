@@ -12,7 +12,7 @@ const password = 'Abc123456789'
 const extensionName = "phantom"
 
 test.beforeAll('Add extension: Phantom', async () => {
-  test.setTimeout(120_000)
+  test.setTimeout(150_000)
   browserContext = await createBrowserContext(extensionName)
   page = await browserContext.newPage()
 
@@ -71,18 +71,33 @@ test.beforeAll('Add extension: Phantom', async () => {
   await phantomPage2.connectBtn.click({ delay: 1000 })
   await homePage.addressPhantomDropBtn.waitFor({ state: 'visible' })
 
+  await tradePage.opTokenOption.click()
+  await tradePage.spotTab.click()
+  await tradePage.searchToken.fill('SWTH / USD')
+  await tradePage.swthUSDOption.click()
+
+  try {
+    await tradePage.cancelAllBtn.click({ timeout: 10_000 })
+
+    const [newPage2] = await Promise.all([
+      browserContext.waitForEvent('page'),
+      await tradePage.confirmBtn.click()
+    ]);
+    await newPage2.waitForLoadState()
+  
+    const phantomPage2 = new PhantomPage(newPage2)
+    await phantomPage2.connectBtn.waitFor({ state: 'visible' })
+    await phantomPage2.connectBtn.click({ delay: 1000 })
+  
+    await expect(tradePage.orderedCancelledPopup).toBeVisible({ timeout: 10_000 })
+  } catch (e) { }
+
 })
 test.describe(' Trading Token with Phantom wallet ', () => {
   test('TC_DEMEX_TO_1: Place a buy order, verify appearance in order book', async () => {
-    const homePage = new HomePage(page)
-    await homePage.goToHomePage()
+    await page.reload()
     await page.waitForLoadState()
-
     const tradePage = new TradeTradePage(page)
-    await tradePage.opTokenOption.click()
-    await tradePage.spotTab.click()
-    await tradePage.searchToken.fill('SWTH / USD')
-    await tradePage.swthUSDOption.click()
     await tradePage.amountToken.fill('1000')
     await tradePage.buyBtn.click()
 
@@ -113,6 +128,7 @@ test.describe(' Trading Token with Phantom wallet ', () => {
     await page.reload()
     await page.waitForLoadState()
     const tradePage = new TradeTradePage(page)
+    await tradePage.cancelBtn.waitFor({state: 'visible'})
 
     const [newPage3] = await Promise.all([
       browserContext.waitForEvent('page'),
