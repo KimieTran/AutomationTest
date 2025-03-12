@@ -17,7 +17,7 @@ export class WithdrawPage{
         this.page=page;
         //this.carbonGroupUSD = this.page.getByRole('button', { name: 'cUSD USD Carbon Grouped USD' })
         this.selectToken = this.page.getByRole('button', { name: 'Select Token' })
-        this.swthTokenOption = this.page.getByRole('cell', { name: 'SWTH SWTH Carbon Token' })
+        this.swthTokenOption = this.page.getByRole('cell', { name: 'SWTH SWTH Demex Token' })
         this.recipientAddrTextbox = this.page.getByRole('textbox', { name: 'swth1q...' })
         this.amountTextbox = this.page.getByRole('spinbutton').first()
         this.memoTextbox = this.page.getByRole('textbox', { name: 'Enter message' })
