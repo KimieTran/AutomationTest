@@ -19,6 +19,8 @@ export class TradeTradePage{
    readonly marketBtn: Locator
    readonly amountOnMarket: Locator
    readonly tradeExecutedPopup: Locator
+   readonly priceOrderTextBox: Locator
+   readonly priceForm: Locator
 
     constructor(page: Page){
         this.page=page;
@@ -40,6 +42,8 @@ export class TradeTradePage{
         this.sellBtn = this.page.getByRole('button', { name: 'Sell SWTH', exact: true })
         this.marketBtn = this.page.getByRole('button', { name: 'Market', exact: true })
         this.tradeExecutedPopup = this.page.getByText('Trade Executed', { exact: true })
+        this.priceOrderTextBox = this.page.locator('form div').filter({ hasText: 'MidUSD' }).nth(2)
+        this.priceForm = this.page.locator('#priceFormField')
     }
 
     async goToTradePage(){

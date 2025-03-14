@@ -6,17 +6,15 @@ import { EncryptedKeyPage } from '../../pages/EncryptedKeyPage';
 
 let page: Page
 let browserContext: BrowserContext
-const encryptedLeapKey = "2SrrmLXhu2W3rX4jcELNY4GLoo6wGRVB2U7bG7uN58vokMEw8xugKW7ZdzMog2zmEGeqRx6EYfGfPEjeSGWPaebR6sECyX4Yfuo8rc1v773M3yowpKNRqJ3M5QoNbHQqCmqk59sYHVrJM8wqpZe5hvA2cak7M5oLMsLAs1rbBndsLw6fQ7FJUe3quawE8hts77aBv9RLSTRsHeLGuQcQxL15Ukgw2YxbvpGfYpheSGKDfdCJRjW9iZuw4AQwvLec9etS4a5WAZ6LkHC8kcovvaogUwyfHcKDf8w1Bz9pxZwniVvqDn6zaMF7bknJFjbPA69T7aJPQbeTqp9VEApN1r2nJYX3dCyqFJF6NcD2h2JJz"
-const passworld = 'Abc123456789'
+const encryptedMetaMaskKey = "3uQMeX7XfUJGGxC5J3deTBPDemwZYsaziyEXPJMpTqLEwztgb5kQtf3ChJ5Lq6HGGs9oKNsTuWw2VdC3m8uLsy6WKSYx5eosXBa8Sxq17kUqSNrFiav5kyTmD9QCLNvxY1Nj9tZ9UBq3hJ5xZifZY4QUeQyWJxZeZw8BH8nLaw1zhEsEjBrBEpHGQHdHdX8mfCjrZKHs1Z4gJDjALQFRkCVRws7Dogaw3VZWXRSy6zDDEPpDDKorKztvc2mwnV5vvaXsEcxVpTbwxTPGnKdWxvYJ6gha95DMt96oLvSdsUjatiyDXtdmSmvW8k668Sa6pJcDjhiFZfFJzMxv1jmnHFQZk6RmZQD39G2ThS"
+const passworld = 'Abc12345789'
 
 test.beforeAll('Launch browser context with permission', async () => {
   test.setTimeout(120_000)
   const browser = await chromium.launch()
-  browserContext = await browser.newContext({
-    permissions: ['clipboard-read', 'clipboard-write']
-  });
+  browserContext = await browser.newContext()
   page = await browserContext.newPage()
-
+  
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
   expect(homePage.spotHistory).toBeTruthy();
@@ -35,7 +33,7 @@ test.beforeAll('Launch browser context with permission', async () => {
 
   await encryptedKeyPage.encryptedKeyTextbox.waitFor({ state: 'visible' })
   await encryptedKeyPage.encryptedKeyTextbox.click()
-  await encryptedKeyPage.encryptedKeyTextbox.fill(encryptedLeapKey)
+  await encryptedKeyPage.encryptedKeyTextbox.fill(encryptedMetaMaskKey)
   await encryptedKeyPage.encryptedKeyTextbox.press('Tab')
   await encryptedKeyPage.passwordTextbox.fill(passworld)
   await encryptedKeyPage.passwordTextbox.press('Tab')
@@ -57,7 +55,7 @@ test.beforeAll('Launch browser context with permission', async () => {
 
 })
 
-test.describe('Trading on Leap by Encrypted Key', () => {
+test.describe('Trading on MetaMask by Encrypted Key', () => {
   test('TC_DEMEX_TO_1: Place a buy order, verify appearance in order book', async () => {
     await page.reload()
     await page.waitForLoadState()
