@@ -10,6 +10,7 @@ const encryptedKeplrKey = "ATkNagk48TArQzAvyB7FfqThoLq2NuXu1naRDqqJCN44hEEKULwJC
 const passworld = 'Abc12345789'
 
 test.beforeAll('Launch browser context with permission', async () => {
+  test.setTimeout(120_000)
   const browser = await chromium.launch()
   browserContext = await browser.newContext()
   page = await browserContext.newPage()
@@ -60,6 +61,9 @@ test.describe('Trading on Keplr by Encrypted Key', () => {
     await page.waitForLoadState()
 
     const tradePage = new TradeTradePage(page)
+    await tradePage.buyBtn.waitFor({state: 'visible'})
+    await tradePage.priceForm.clear()
+    await tradePage.priceForm.fill('0.01')
     await tradePage.amountToken.fill('1000')
     await tradePage.buyBtn.click()
     await tradePage.confirmBtn.click()
@@ -90,6 +94,9 @@ test.describe('Trading on Keplr by Encrypted Key', () => {
     await page.reload()
     await page.waitForLoadState()
     const tradePage = new TradeTradePage(page)
+    await tradePage.buyBtn.waitFor({state: 'visible'})
+    await tradePage.priceForm.clear()
+    await tradePage.priceForm.fill('10')
     await tradePage.amountToken.fill('1000')
     await tradePage.switchingBtn.click()
     await tradePage.sellBtn.click()
