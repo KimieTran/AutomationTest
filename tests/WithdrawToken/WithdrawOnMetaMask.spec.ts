@@ -2,14 +2,13 @@ import { test, expect, Page, BrowserContext, chromium } from '@playwright/test'
 import { HomePage } from '../../pages/HomePage.page';
 import { TradeTradePage } from '../../pages/TradeTradePage.page';
 import { ConnectWalletPage } from '../../pages/ConnectWalletPage';
-import { PhantomPage } from '../../pages/PhantomPage';
 import { DepositPage } from '../../pages/DepositPage';
 import { WithdrawPage } from '../../pages/WithdrawPage';
 import { EncryptedKeyPage } from '../../pages/EncryptedKeyPage';
 
 let page: Page
 let browserContext: BrowserContext
-const encryptedKeplrKey = "ATkNagk48TArQzAvyB7FfqThoLq2NuXu1naRDqqJCN44hEEKULwJCGj2dHyepgMX1C3yUmknktxw3pJe1Z41zWpbE6SUfHhXvyeptoSgiRBPNpNqgKmmA824QFpP3XURoTDszYYL5MRWs1zoWZnHDjfvWJmTUtxdWBRqTfdiLYcipPKQYzRg1jdqXoAqpt51zydX6TfCTnfxBt61SFxsEgbgbb16w1puk9mGfFiysr9R3PystkTja6sX8AbNW9tMMALKQGHtuCjJCmjuBw9RZTfd4XnSmn1tHYEqTbKaBq6oRLJwyzVnyiqmAcmn2Pg7S2aUvWqwpyYe7KyqAQXVQY7vTjN8JtBBihA4TyWUYGhNimtWYw"
+const encryptedMetaMaskKey = "3uQMeX7XfUJGGxC5J3deTBPDemwZYsaziyEXPJMpTqLEwztgb5kQtf3ChJ5Lq6HGGs9oKNsTuWw2VdC3m8uLsy6WKSYx5eosXBa8Sxq17kUqSNrFiav5kyTmD9QCLNvxY1Nj9tZ9UBq3hJ5xZifZY4QUeQyWJxZeZw8BH8nLaw1zhEsEjBrBEpHGQHdHdX8mfCjrZKHs1Z4gJDjALQFRkCVRws7Dogaw3VZWXRSy6zDDEPpDDKorKztvc2mwnV5vvaXsEcxVpTbwxTPGnKdWxvYJ6gha95DMt96oLvSdsUjatiyDXtdmSmvW8k668Sa6pJcDjhiFZfFJzMxv1jmnHFQZk6RmZQD39G2ThS"
 const passworld = 'Abc12345789'
 const phantomSwthAddress = 'tswth1r5kh40kknhw7e02qyzyz50zsfj8xyvfsq9lvxp'
 
@@ -37,7 +36,7 @@ test.beforeAll('Connect Keplr wallet by Encrypted Key', async () => {
 
   await encryptedKeyPage.encryptedKeyTextbox.waitFor({ state: 'visible' })
   await encryptedKeyPage.encryptedKeyTextbox.click()
-  await encryptedKeyPage.encryptedKeyTextbox.fill(encryptedKeplrKey)
+  await encryptedKeyPage.encryptedKeyTextbox.fill(encryptedMetaMaskKey)
   await encryptedKeyPage.encryptedKeyTextbox.press('Tab')
   await encryptedKeyPage.passwordTextbox.fill(passworld)
   await encryptedKeyPage.passwordTextbox.press('Tab')
