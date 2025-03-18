@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { AsyncLocalStorage } from 'async_hooks';
 export class HomePage{
     readonly page: Page;
     readonly spotHistory;
@@ -12,6 +13,7 @@ export class HomePage{
     readonly orderBook;
     readonly orderPrice;
     readonly carbonTestnet: Locator
+    readonly demexTestnet: Locator
     readonly mantle: Locator
     readonly addressMetaMaskDropBtn: Locator
     readonly addressPhantomDropBtn: Locator
@@ -23,6 +25,8 @@ export class HomePage{
     readonly addressDropBtn: Locator
     readonly firstCopyClipBoardBtn: Locator
     readonly withdrawnTab: Locator
+    readonly earnBtn: Locator
+    readonly lendBorrowMintItem: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -37,6 +41,7 @@ export class HomePage{
         this.orderBook=page.locator('xpath=//p[text()="Order Book"]');
         this.orderPrice=page.locator('xpath=//p[text()="Order Price"]');
         this.carbonTestnet=this.page.getByRole('paragraph').filter({ hasText: 'Carbon Testnet' })
+        this.demexTestnet=this.page.getByRole('paragraph').filter({ hasText: 'Demex Testnet' })
         //this.carbonTestnet=this.page.getByRole('paragraph').filter({ hasText: 'Carbon Devnet' })
         this.mantle=this.page.getByText('Mantle')
         this.addressMetaMaskDropBtn = this.page.getByRole('img', { name: 'MetaMask' })
@@ -49,6 +54,8 @@ export class HomePage{
         this.addressDropBtn = this.page.locator('svg:nth-child(3)').first()
         this.firstCopyClipBoardBtn=this.page.locator('div[title="Copy to Clipboard"]').first()
         this.withdrawnTab=this.page.getByRole('button', { name: 'Withdraw', exact: true })
+        this.earnBtn = this.page.getByRole('button', { name: 'Earn' })
+        this.lendBorrowMintItem = this.page.getByRole('menuitem', { name: 'Lend, Borrow, Mint Lend and' })
 
     }
 
