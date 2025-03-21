@@ -19,8 +19,8 @@ test.beforeAll('Launch browser context with permission', async () => {
   const homePage = new HomePage(page)
   await homePage.goToHomePage()
   expect(homePage.spotHistory).toBeTruthy();
-  await homePage.demexTestnet.click();
-  await homePage.mantle.click()
+  //await homePage.demexTestnet.click();
+  //await homePage.mantle.click()
   await page.waitForTimeout(10_000)
 
   const tradePage = new TradeTradePage(page);
@@ -73,6 +73,35 @@ test.describe('Nitron on Keplr by Encrypted Key', () => {
     }
     expect(actualHeaders).toEqual(expectedHeaders)
 
+  })
+
+  test('TC_NITRON_05: Check the link "How it Works"', async () => {
+    await page.reload()
+    await page.waitForLoadState()
+
+    const lendBorrowMintPage = new LendBorrowMintPage(page)
+    await lendBorrowMintPage.howItWorkBtn.click()
+    await lendBorrowMintPage.xBtn.waitFor({ state: 'visible' })
+    await expect(lendBorrowMintPage.xBtn).toBeVisible()
+    
+    await lendBorrowMintPage.xBtn.click()
+    await expect(lendBorrowMintPage.xBtn).toBeDisabled()
+
+  })
+
+  test('TC_NITRON_06: Chek the components of the "Hown it Works" drop down', async () => {
+    await page.reload()
+    await page.waitForLoadState()
+
+    const lendBorrowMintPage = new LendBorrowMintPage(page)
+    await lendBorrowMintPage.howItWorkBtn.click()
+  
+    await expect(lendBorrowMintPage.step1Logo).toBeVisible()
+    await expect(lendBorrowMintPage.step2Logo).toBeVisible()
+    await expect(lendBorrowMintPage.step3Logo).toBeVisible()
+    await expect(lendBorrowMintPage.step4Logo).toBeVisible()
+    await expect(lendBorrowMintPage.learnMoreLink).toBeVisible()
+    
   })
 
 })
