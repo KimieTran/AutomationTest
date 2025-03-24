@@ -43,7 +43,8 @@ export class TradeTradePage{
         this.marketBtn = this.page.getByRole('button', { name: 'Market', exact: true })
         this.tradeExecutedPopup = this.page.getByText('Trade Executed', { exact: true })
         this.priceOrderTextBox = this.page.locator('form div').filter({ hasText: 'MidUSD' }).nth(2)
-        this.priceForm = this.page.locator('#priceFormField')
+        //this.priceForm = this.page.locator('#priceFormField')
+        this.priceForm = this.page.getByRole('spinbutton').first()
     }
 
     async goToTradePage(){

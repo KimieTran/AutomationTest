@@ -42,6 +42,7 @@ test.beforeAll('Launch browser context with permission', async () => {
   await encryptedKeyPage.connectBtn.click({ delay: 2000 })
   await encryptedKeyPage.connectBtn.waitFor({ state: 'detached' })
   await homePage.addressDropBtn.waitFor({ state: 'visible' })
+  await page.pause()
 
 })
 
@@ -85,7 +86,7 @@ test.describe('Nitron on Keplr by Encrypted Key', () => {
     await expect(lendBorrowMintPage.xBtn).toBeVisible()
     
     await lendBorrowMintPage.xBtn.click()
-    await expect(lendBorrowMintPage.xBtn).toBeDisabled()
+    await expect(lendBorrowMintPage.xBtn).not.toBeVisible()
 
   })
 
@@ -102,6 +103,52 @@ test.describe('Nitron on Keplr by Encrypted Key', () => {
     await expect(lendBorrowMintPage.step4Logo).toBeVisible()
     await expect(lendBorrowMintPage.learnMoreLink).toBeVisible()
     
+  })
+
+  test('TC_NITRON_15: Verify that the Lending and Borrowing pages are separated into different pages', async () => {
+    await page.reload()
+    await page.waitForLoadState()
+
+    const lendBorrowMintPage = new LendBorrowMintPage(page)
+    await lendBorrowMintPage.yourPositionsItem.click()
+    await lendBorrowMintPage.lendingTab.click()
+
+    const expectedLendingHeaders = [
+      'Asset',
+      'Amount',
+      'Collateral',
+      'Lend APY'
+    ]
+
+    await page.waitForTimeout(3000)
+    const lendingHeaders = await lendBorrowMintPage.headersText.allInnerTexts()
+
+    const actualLendingHeaders: string[] = []
+    for (const header of lendingHeaders) {
+        if (header.trim() !== '') {
+            actualLendingHeaders.push(header.trim())
+        }
+    }
+    expect(actualLendingHeaders).toEqual(expectedLendingHeaders)
+
+    await lendBorrowMintPage.borrowingTab.click()
+    const expectedBorrowingHeaders = [
+      'Asset',
+      'Amount',
+      'Collateral',
+      'Lend APY'
+    ]
+
+    await page.waitForTimeout(3000)
+    const borrowingHeaders = await lendBorrowMintPage.headersText.allInnerTexts()
+
+    const actualBorrowingHeaders: string[] = []
+    for (const header of borrowingHeaders) {
+        if (header.trim() !== '') {
+          actualBorrowingHeaders.push(header.trim())
+        }
+    }
+    expect(actualBorrowingHeaders).toEqual(expectedBorrowingHeaders)
   })
 
 })

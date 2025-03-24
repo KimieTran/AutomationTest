@@ -10,18 +10,23 @@ export class LendBorrowMintPage{
     readonly step4Logo: Locator
     readonly learnMoreLink: Locator
     readonly xBtn: Locator
+    readonly yourPositionsItem: Locator
+    readonly lendingTab: Locator
+    readonly borrowingTab: Locator
 
     constructor (page:Page){
         this.page=page;
         this.headersText = this.page.locator('thead th div')
         this.howItWorkBtn = this.page.getByRole('button', { name: 'How it works' })
         this.step1Logo = this.page.getByRole('img', { name: 'step1' })
-        this.step1Logo = this.page.getByRole('img', { name: 'step2' })
-        this.step1Logo = this.page.getByRole('img', { name: 'step3' })
-        this.step1Logo = this.page.getByRole('img', { name: 'step4' })
+        this.step2Logo = this.page.getByRole('img', { name: 'step2' })
+        this.step3Logo = this.page.getByRole('img', { name: 'step3' })
+        this.step4Logo = this.page.getByRole('img', { name: 'step4' })
         this.learnMoreLink = this.page.locator('div').filter({ hasText: /^Learn More$/ }).getByRole('link')
         this.xBtn = this.page.locator("div:has-text('How Nitron Works') + button")
-        
+        this.yourPositionsItem = this.page.locator('div').filter({ hasText: /^Your Positions$/ }).nth(1)
+        this.lendingTab = this.page.getByRole('button', { name: 'Lending' })
+        this.borrowingTab = this.page.getByRole('button', { name: 'Borrowing' })
     }
 
 
