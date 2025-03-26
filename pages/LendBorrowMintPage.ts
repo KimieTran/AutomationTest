@@ -13,6 +13,14 @@ export class LendBorrowMintPage{
     readonly yourPositionsItem: Locator
     readonly lendingTab: Locator
     readonly borrowingTab: Locator
+    readonly searchTextbox: Locator
+    readonly usdLendBtn: Locator
+    readonly usdBorrowBtn: Locator
+    readonly amountTextbox: Locator
+    readonly transactionText: Locator
+    readonly lendBtn: Locator
+    readonly borrowBtn: Locator
+    readonly backBtn: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -27,6 +35,15 @@ export class LendBorrowMintPage{
         this.yourPositionsItem = this.page.locator('div').filter({ hasText: /^Your Positions$/ }).nth(1)
         this.lendingTab = this.page.getByRole('button', { name: 'Lending' })
         this.borrowingTab = this.page.getByRole('button', { name: 'Borrowing' })
+        this.searchTextbox = this.page.getByRole('textbox', { name: 'Search' })
+        this.usdLendBtn = this.page.getByRole('button', { name: 'Lend' }).first()
+        this.usdBorrowBtn = this.page.getByRole('button', { name: 'Borrow' }).first()
+        this.amountTextbox = this.page.getByRole('spinbutton')
+        this.transactionText = this.page.getByText('Transaction Broadcasted')
+        this.lendBtn = this.page.getByRole('button', { name: 'Lend' })
+        this.borrowBtn = this.page.getByRole('button', { name: 'Borrow' })
+        this.backBtn = this.page.locator('a').filter({ hasText: 'Back' })
+
     }
 
 

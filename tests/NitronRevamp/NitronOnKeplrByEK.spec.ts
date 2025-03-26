@@ -42,7 +42,6 @@ test.beforeAll('Launch browser context with permission', async () => {
   await encryptedKeyPage.connectBtn.click({ delay: 2000 })
   await encryptedKeyPage.connectBtn.waitFor({ state: 'detached' })
   await homePage.addressDropBtn.waitFor({ state: 'visible' })
-  await page.pause()
 
 })
 
@@ -105,6 +104,29 @@ test.describe('Nitron on Keplr by Encrypted Key', () => {
     
   })
 
+  test('TC_DEMEX_NITRON_1: Access Nitron; test borrowing and lending with assets', async () => {
+    await page.reload()
+    await page.waitForLoadState()
+
+    const lendBorrowMintPage = new LendBorrowMintPage(page)
+    await lendBorrowMintPage.searchTextbox.fill('USD')
+    await lendBorrowMintPage.usdLendBtn.click({delay: 1000})
+    await lendBorrowMintPage.amountTextbox.fill('1')
+    await lendBorrowMintPage.lendBtn.click()
+    await expect(lendBorrowMintPage.transactionText).toBeVisible()
+
+    await page.reload()
+    await lendBorrowMintPage.backBtn.click()
+    await lendBorrowMintPage.searchTextbox.fill('USD')
+    await lendBorrowMintPage.usdBorrowBtn.click({delay: 1000})
+    await lendBorrowMintPage.amountTextbox.fill('1')
+    await lendBorrowMintPage.borrowBtn.click()
+    await expect(lendBorrowMintPage.transactionText).toBeVisible()
+    await page.reload()
+    await lendBorrowMintPage.backBtn.click()
+
+  })
+
   test('TC_NITRON_15: Verify that the Lending and Borrowing pages are separated into different pages', async () => {
     await page.reload()
     await page.waitForLoadState()
@@ -134,9 +156,9 @@ test.describe('Nitron on Keplr by Encrypted Key', () => {
     await lendBorrowMintPage.borrowingTab.click()
     const expectedBorrowingHeaders = [
       'Asset',
-      'Amount',
-      'Collateral',
-      'Lend APY'
+      'Debt',
+      'Borrow APY',
+      'Available to Borrow'
     ]
 
     await page.waitForTimeout(3000)
