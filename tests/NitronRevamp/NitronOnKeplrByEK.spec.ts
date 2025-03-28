@@ -127,6 +127,29 @@ test.describe('Nitron on Keplr by Encrypted Key', () => {
 
   })
 
+  test('TC_NITRON_13: Check the tooltip of the record collaterallizing the asset boosts on E-mode', async () => {
+    await page.reload()
+    await page.waitForLoadState()
+
+    const lendBorrowMintPage = new LendBorrowMintPage(page)
+    await lendBorrowMintPage.usdLendBtn.waitFor({state: 'visible'})
+    await lendBorrowMintPage.enableModeBtn.click()
+    await lendBorrowMintPage.selectCategoryDropdown.click()
+    await lendBorrowMintPage.stablecoinsOption.click()
+    await lendBorrowMintPage.enableBtn.click()
+
+    await lendBorrowMintPage.backBtn.click()
+    await lendBorrowMintPage.searchTextbox.fill('USD')
+    await lendBorrowMintPage.thunderIcon.click()
+    await expect(lendBorrowMintPage.thunderTooltips).toBeVisible()
+
+    await page.reload()
+    await lendBorrowMintPage.stableCoinsBtn.click()
+    await lendBorrowMintPage.disableEModeBtn.check()
+    await lendBorrowMintPage.disableBtn.click()
+    await lendBorrowMintPage.backBtn.click()
+  })
+
   test('TC_NITRON_15: Verify that the Lending and Borrowing pages are separated into different pages', async () => {
     await page.reload()
     await page.waitForLoadState()

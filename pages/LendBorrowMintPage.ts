@@ -21,6 +21,15 @@ export class LendBorrowMintPage{
     readonly lendBtn: Locator
     readonly borrowBtn: Locator
     readonly backBtn: Locator
+    readonly enableModeBtn: Locator
+    readonly enableBtn: Locator
+    readonly selectCategoryDropdown: Locator
+    readonly stablecoinsOption: Locator
+    readonly thunderIcon: Locator
+    readonly thunderTooltips: Locator
+    readonly stableCoinsBtn: Locator
+    readonly disableEModeBtn: Locator
+    readonly disableBtn: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -43,6 +52,15 @@ export class LendBorrowMintPage{
         this.lendBtn = this.page.getByRole('button', { name: 'Lend' })
         this.borrowBtn = this.page.getByRole('button', { name: 'Borrow' })
         this.backBtn = this.page.locator('a').filter({ hasText: 'Back' })
+        this.enableModeBtn = this.page.getByRole('button', { name: 'Enable', exact: true })
+        this.enableBtn = this.page.getByRole('button', { name: 'Enable', exact: true })
+        this.selectCategoryDropdown = this.page.getByText('Select Category')
+        this.stablecoinsOption = this.page.getByRole('cell', { name: 'Stablecoins' })
+        this.thunderIcon = this.page.locator('td:nth-child(9)').first()
+        this.thunderTooltips = this.page.getByText('Collateralizing this asset boosts borrowing power in your current E-Mode category.')
+        this.stableCoinsBtn = this.page.getByRole('button', { name: 'Stablecoins' })
+        this.disableEModeBtn = this.page.getByLabel('', { exact: true }).first()
+        this.disableBtn = this.page.getByRole('button', { name: 'Disable' })
 
     }
 
