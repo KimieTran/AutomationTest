@@ -210,7 +210,7 @@ test.describe('Nitron on Keplr by Encrypted Key', () => {
 
   })
 
-  test.only('TC_NITRON_26: Check the tooltip of the E-mode', async () => {
+  test('TC_NITRON_26: Check the tooltip of the E-mode', async () => {
     await page.reload()
     await page.waitForLoadState()
 
