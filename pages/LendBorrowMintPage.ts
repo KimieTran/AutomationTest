@@ -30,6 +30,15 @@ export class LendBorrowMintPage{
     readonly stableCoinsBtn: Locator
     readonly disableEModeBtn: Locator
     readonly disableBtn: Locator
+    readonly viewDetailsBtn: Locator
+    readonly popupLiquidRiskParamsText: Locator
+    readonly contentUnderPopupTitle: Locator
+    readonly healthFactorArea: Locator
+    readonly currentLTVArea: Locator
+    readonly xPopupBtn: Locator
+    readonly eMode: Locator
+    readonly eModeTooltips: Locator
+    readonly learnMoreLinkTooltips: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -61,7 +70,15 @@ export class LendBorrowMintPage{
         this.stableCoinsBtn = this.page.getByRole('button', { name: 'Stablecoins' })
         this.disableEModeBtn = this.page.getByLabel('', { exact: true }).first()
         this.disableBtn = this.page.getByRole('button', { name: 'Disable' })
-
+        this.viewDetailsBtn = this.page.locator('a').filter({ hasText: 'View Details' })
+        this.popupLiquidRiskParamsText = this.page.getByText('Liquidation Risk Parameters')
+        this.contentUnderPopupTitle = this.page.getByText('Your health factor and loan-to-value determines the assurance of your collateral. Add more collateral or return borrowed assets to avoid liquidation.')
+        this.healthFactorArea = this.page.getByRole('paragraph').filter({ hasText: 'Health Factor' })
+        this.currentLTVArea = this.page.getByText('Current LTV')
+        this.xPopupBtn = this.page.getByRole('button')
+        this.eMode = this.page.getByText('E-Mode', { exact: true })
+        this.eModeTooltips = this.page.getByText('Efficiency Mode (E-Mode) increases your LTV for a selected category of assets.')
+        this.learnMoreLinkTooltips = this.page.locator('a[href*="introduction/efficiency-mode"]')
     }
 
 

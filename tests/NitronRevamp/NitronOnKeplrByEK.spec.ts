@@ -43,14 +43,12 @@ test.beforeAll('Launch browser context with permission', async () => {
   await encryptedKeyPage.connectBtn.waitFor({ state: 'detached' })
   await homePage.addressDropBtn.waitFor({ state: 'visible' })
 
+  await homePage.earnBtn.click()
+  await homePage.lendBorrowMintItem.click()
 })
 
 test.describe('Nitron on Keplr by Encrypted Key', () => {
   test('TC_NITRON_02: Check the colums in the "All Markets" table', async () => {
-    const homePage = new HomePage(page)
-    await homePage.earnBtn.click()
-    await homePage.lendBorrowMintItem.click()
-
     const lendBorrowMintPage = new LendBorrowMintPage(page)
 
     const expectedHeaders = [
@@ -194,6 +192,50 @@ test.describe('Nitron on Keplr by Encrypted Key', () => {
         }
     }
     expect(actualBorrowingHeaders).toEqual(expectedBorrowingHeaders)
+  })
+
+  test('TC_NITRON_21: Verify that the Liquidation Risk Parameters pop-up will be displayed when clicking on the "View Details" of the Health Factor', async () => {
+    await page.reload()
+    await page.waitForLoadState()
+
+    const lendBorrowMintPage = new LendBorrowMintPage(page)
+    await lendBorrowMintPage.yourPositionsItem.click()
+
+    await lendBorrowMintPage.viewDetailsBtn.click()
+    await expect(lendBorrowMintPage.popupLiquidRiskParamsText).toBeVisible()
+    await expect(lendBorrowMintPage.contentUnderPopupTitle).toBeVisible()
+    await expect(lendBorrowMintPage.healthFactorArea).toBeVisible()
+    await expect(lendBorrowMintPage.currentLTVArea).toBeVisible()
+    await lendBorrowMintPage.xPopupBtn.click()
+
+  })
+
+  test.only('TC_NITRON_26: Check the tooltip of the E-mode', async () => {
+    await page.reload()
+    await page.waitForLoadState()
+
+    const lendBorrowMintPage = new LendBorrowMintPage(page)
+    await lendBorrowMintPage.usdLendBtn.waitFor({state: 'visible'})
+    await lendBorrowMintPage.enableModeBtn.click()
+    await lendBorrowMintPage.selectCategoryDropdown.click()
+    await lendBorrowMintPage.stablecoinsOption.click()
+    await lendBorrowMintPage.enableBtn.click()
+    await lendBorrowMintPage.backBtn.click()
+
+    await lendBorrowMintPage.yourPositionsItem.click()
+    await lendBorrowMintPage.borrowingTab.click()
+    await page.pause()
+
+    await lendBorrowMintPage.eMode.hover()
+    await expect(lendBorrowMintPage.eModeTooltips).toBeVisible()
+    await expect(lendBorrowMintPage.learnMoreLinkTooltips).toBeVisible()
+
+    await page.reload()
+    await lendBorrowMintPage.stableCoinsBtn.click()
+    await lendBorrowMintPage.disableEModeBtn.check()
+    await lendBorrowMintPage.disableBtn.click()
+    await lendBorrowMintPage.backBtn.click()
+
   })
 
 })
