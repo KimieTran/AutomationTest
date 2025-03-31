@@ -39,6 +39,7 @@ export class LendBorrowMintPage{
     readonly eMode: Locator
     readonly eModeTooltips: Locator
     readonly learnMoreLinkTooltips: Locator
+    readonly eModeThunderIcon: Locator
 
     constructor (page:Page){
         this.page=page;
@@ -79,7 +80,21 @@ export class LendBorrowMintPage{
         this.eMode = this.page.getByText('E-Mode', { exact: true })
         this.eModeTooltips = this.page.getByText('Efficiency Mode (E-Mode) increases your LTV for a selected category of assets.')
         this.learnMoreLinkTooltips = this.page.locator('a[href*="introduction/efficiency-mode"]')
+        this.eModeThunderIcon = this.page.locator('div').filter({ hasText: /^E-Mode$/ }).locator('svg')
     }
 
-
+    async getLendApyColumnValues() {
+        const columnValues = await this.page.$$eval('tbody tr', rows => {
+            return rows.map(row => {
+                const lendApyCell = row.querySelectorAll('td')[3]
+                const value = lendApyCell ? lendApyCell.innerText.trim() : null
+                if (value) {
+                    const number = parseFloat(value.replace('%', '').trim())
+                    return !isNaN(number) ? number : null
+                }
+                return null
+            }).filter(value => value !== null)
+        })
+        return columnValues
+    }
 }

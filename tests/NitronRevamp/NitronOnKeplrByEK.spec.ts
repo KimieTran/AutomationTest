@@ -125,6 +125,21 @@ test.describe('Nitron on Keplr by Encrypted Key', () => {
 
   })
 
+  test('TC_NITRON_12: Verify that the filter all E-Mode related assets to top of page sort by Lend APY', async () => {
+    await page.reload()
+    await page.waitForLoadState()
+    const lendBorrowMintPage = new LendBorrowMintPage(page)
+    await expect(lendBorrowMintPage.eMode).toBeVisible()
+
+    await page.waitForSelector('table')
+    await lendBorrowMintPage.usdLendBtn.waitFor({state: 'visible'})
+
+    const lendApyValues = await lendBorrowMintPage.getLendApyColumnValues()
+    const sortedLendAPYValues = [...lendApyValues].sort((a, b) => b - a)
+    expect(lendApyValues).toEqual(sortedLendAPYValues)
+
+  })
+
   test('TC_NITRON_13: Check the tooltip of the record collaterallizing the asset boosts on E-mode', async () => {
     await page.reload()
     await page.waitForLoadState()
@@ -207,6 +222,31 @@ test.describe('Nitron on Keplr by Encrypted Key', () => {
     await expect(lendBorrowMintPage.healthFactorArea).toBeVisible()
     await expect(lendBorrowMintPage.currentLTVArea).toBeVisible()
     await lendBorrowMintPage.xPopupBtn.click()
+
+  })
+
+  test('TC_NITRON_24: Check that the E-Mode is on the Lending page', async () => {
+    await page.reload()
+    await page.waitForLoadState()
+
+    const lendBorrowMintPage = new LendBorrowMintPage(page)
+    await lendBorrowMintPage.usdLendBtn.waitFor({state: 'visible'})
+    await lendBorrowMintPage.enableModeBtn.click()
+    await lendBorrowMintPage.selectCategoryDropdown.click()
+    await lendBorrowMintPage.stablecoinsOption.click()
+    await lendBorrowMintPage.enableBtn.click()
+    await lendBorrowMintPage.backBtn.click()
+
+    await lendBorrowMintPage.yourPositionsItem.click()
+    await lendBorrowMintPage.lendingTab.click()
+    await expect(lendBorrowMintPage.eMode).toBeVisible()
+    await expect(lendBorrowMintPage.eModeThunderIcon).toBeVisible()
+
+    await page.reload()
+    await lendBorrowMintPage.stableCoinsBtn.click()
+    await lendBorrowMintPage.disableEModeBtn.check()
+    await lendBorrowMintPage.disableBtn.click()
+    await lendBorrowMintPage.backBtn.click()
 
   })
 
