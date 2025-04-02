@@ -45,26 +45,48 @@ test.beforeAll('Launch browser context with permission', async () => {
 
 test.describe('Default Charts on Keplr wallet', () => {
   test('TEST_01: Make sure that the Candles chart is set default on the Perpetual chart', async () => {
+    test.setTimeout(360_000)
     const tradePage = new TradeTradePage(page)
     await tradePage.opTokenOption.click()
     await tradePage.perpetualTab.click()
-    await tradePage.opPerpOption.click()
 
-    await tradePage.candlesToolbarChart.click()
-    await tradePage.candlesChartOption.waitFor({state: 'visible'})
-    await expect(tradePage.candlesChartOption).toHaveAttribute("class", /isActive-RhC5uhZw/)
+    const tokenList = ['BTC','MON','DAK','YAKI','CHOG','SOL','EIGEN','PYTH','JUP','STRK','STX','SEI','OP','RNDR','WLD','DOGE','WIF','KPEPE','DEGEN','ENA','PENDLE',
+      'ETHBTC','KSHIB','ENS','BRETT','DOT','KBONK','BNEO','OM','KFLOKI','BCH','POPCAT','MKR','MMOG','XRP','MEW','LDO','ARB','ETC','NEAR','TAO','ONDO','ICP','AAVE',
+      'AVAX','SOLETH','SUI','APT','ZIL','LINK','TRX','CRV','RUNE','INJ','NEIROETH','POL','KAS','FET','AR','MNT','UNI','GRASS','GOAT','VIRTUAL','MOODENG','PURR','HYPE',
+      'JTO','RAY','PUDGY','AIXBT','AI16Z','TON','FARTCOIN','MORPHO','PENGU','TRUMP','ETH','TIA'
+    ]
+    for (let i = 0; i < tokenList.length; i++) {
+      await tradePage.marketTokens(tokenList[i]).click()
+      await tradePage.candlesToolbarChart.click()
+      await tradePage.candlesChartOption.waitFor({state: 'visible'})
+      await expect(tradePage.candlesChartOption).toHaveAttribute("class", /isActive-RhC5uhZw/)
+
+      if (tokenList[i]=='BTC'||tokenList[i]=='MON'||tokenList[i]=='DAK'||tokenList[i]=='YAKI'||tokenList[i]=='CHOG')
+        await tradePage.tokenPerpOptions(tokenList[i]).click() 
+      else
+        await tradePage.firstTokenPerpOptions(tokenList[i]).click()
+    }
 
   })
 
-  test.only('TEST_02: Make sure that the Candles chart is set default on the Spot chart', async () => {
+  test('TEST_02: Make sure that the Candles chart is set default on the Spot chart', async () => {
+    test.setTimeout(120_000)
+    await page.reload()
+    await page.waitForLoadState()
+
     const tradePage = new TradeTradePage(page)
     await tradePage.opTokenOption.click()
     await tradePage.spotTab.click()
-    await tradePage.swthUSDOption.click()
 
-    await tradePage.candlesToolbarChart.click()
-    await tradePage.candlesChartOption.waitFor({state: 'visible'})
-    await expect(tradePage.candlesChartOption).toHaveAttribute("class", /isActive-RhC5uhZw/)
+    const tokenList = ['SWTH / USD','USC / USD','BNEO / SWTH','SWTH / WBTC','SWTH / ETH','SWTH / BNB','WSTETH / ETH','BNB / ETH','ETH / WBTC','BUSD / BNB','ETH / USD']
+    for (let i = 0; i < tokenList.length; i++) {
+      await tradePage.spotTokens(tokenList[i]).click()
+      await tradePage.candlesToolbarChart.click()
+      await tradePage.candlesChartOption.waitFor({state: 'visible'})
+      await expect(tradePage.candlesChartOption).toHaveAttribute("class", /isActive-RhC5uhZw/)
+
+      await tradePage.spotTokenOptions(tokenList[i]).click()
+    }
 
   })
 

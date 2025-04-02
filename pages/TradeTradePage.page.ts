@@ -25,6 +25,11 @@ export class TradeTradePage{
    readonly opPerpOption: Locator
    readonly candlesToolbarChart: Locator
    readonly candlesChartOption: Locator
+   readonly marketTokens: (tokenName: string) => Locator
+   readonly tokenPerpOptions: (tokenName: string) => Locator
+   readonly firstTokenPerpOptions: (tokenName: string) => Locator
+   readonly spotTokens: (tokenName: string) => Locator
+   readonly spotTokenOptions: (tokenName: string) => Locator
 
     constructor(page: Page){
         this.page=page;
@@ -53,6 +58,11 @@ export class TradeTradePage{
         this.opPerpOption = this.page.getByText('OP-PERP').nth(2)
         this.candlesToolbarChart = this.page.locator('iframe').first().contentFrame().locator('#header-toolbar-chart-styles div').first()
         this.candlesChartOption = this.page.locator('iframe').first().contentFrame().locator('[data-value="candle"]')
+        this.marketTokens = (tokenName: string) => this.page.getByText(`${tokenName}-PERP`, { exact: true })
+        this.tokenPerpOptions = (tokenName: string) => this.page.getByText(`${tokenName}-PERP`).nth(2)
+        this.firstTokenPerpOptions = (tokenName: string) => this.page.getByText(`${tokenName}-PERP`).nth(1)
+        this.spotTokens = (tokenName: string) => this.page.locator('#root').getByText(tokenName, { exact: true })
+        this.spotTokenOptions = (tokenName: string) => this.page.getByText(tokenName, { exact: true }).nth(2)
     }
 
     async goToTradePage(){
