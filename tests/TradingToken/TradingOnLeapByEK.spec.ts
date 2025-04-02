@@ -65,8 +65,8 @@ test.describe('Trading on Leap by Encrypted Key', () => {
     const tradePage = new TradeTradePage(page)
     await tradePage.buyBtn.waitFor({state: 'visible'})
     await tradePage.priceForm.clear()
-    await tradePage.priceForm.fill('0.01')
-    await tradePage.amountToken.fill('1000')
+    await tradePage.priceForm.fill('0.1')
+    await tradePage.amountToken.fill('10000')
     await tradePage.buyBtn.click()
     await tradePage.confirmBtn.click()
 

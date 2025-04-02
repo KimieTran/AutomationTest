@@ -99,9 +99,10 @@ test.describe(' Trading Token with Phantom wallet ', () => {
     await page.waitForLoadState()
     const tradePage = new TradeTradePage(page)
     await tradePage.buyBtn.waitFor({state: 'visible'})
+    //await page.pause()
     await tradePage.priceForm.clear()
-    await tradePage.priceForm.fill('0.01')
-    await tradePage.amountToken.fill('1000')
+    await tradePage.priceForm.fill('0.1')
+    await tradePage.amountToken.fill('10000')
     await tradePage.buyBtn.click()
 
     const [newPage2] = await Promise.all([
@@ -186,7 +187,7 @@ test.describe(' Trading Token with Phantom wallet ', () => {
     const tradePage = new TradeTradePage(page)
     await tradePage.marketBtn.click()
     await tradePage.buyBtn.waitFor({ state: 'visible' })
-    await tradePage.amountOnMarket.fill('1000')
+    await tradePage.amountOnMarket.fill('3000')
     await tradePage.buyBtn.click()
 
     const [newPage2] = await Promise.all([

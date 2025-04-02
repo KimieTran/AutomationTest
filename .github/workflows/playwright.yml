@@ -1,12 +1,12 @@
 name: Playwright Tests
 on:
   push:
-    branches: [ main, master, feature/trading-v2 ]
+    branches: [ main, master, feature/nitron-revamp ]
   pull_request:
-    branches: [ main, master, feature/trading-v2 ]
+    branches: [ main, master, feature/nitron-revamp ]
 jobs:
   test:
-    timeout-minutes: 60
+    timeout-minutes: 90
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
