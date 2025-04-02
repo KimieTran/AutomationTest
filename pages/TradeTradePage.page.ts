@@ -21,6 +21,10 @@ export class TradeTradePage{
    readonly tradeExecutedPopup: Locator
    readonly priceOrderTextBox: Locator
    readonly priceForm: Locator
+   readonly perpetualTab: Locator
+   readonly opPerpOption: Locator
+   readonly candlesToolbarChart: Locator
+   readonly candlesChartOption: Locator
 
     constructor(page: Page){
         this.page=page;
@@ -45,6 +49,10 @@ export class TradeTradePage{
         this.priceOrderTextBox = this.page.locator('form div').filter({ hasText: 'MidUSD' }).nth(2)
         //this.priceForm = this.page.locator('#priceFormField')
         this.priceForm = this.page.getByRole('spinbutton').first()
+        this.perpetualTab = this.page.getByRole('button', { name: 'Perpetual' })
+        this.opPerpOption = this.page.getByText('OP-PERP').nth(2)
+        this.candlesToolbarChart = this.page.locator('iframe').first().contentFrame().locator('#header-toolbar-chart-styles div').first()
+        this.candlesChartOption = this.page.locator('iframe').first().contentFrame().locator('[data-value="candle"]')
     }
 
     async goToTradePage(){
